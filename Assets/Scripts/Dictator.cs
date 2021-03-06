@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class Dictator : MonoBehaviour
 {
@@ -41,33 +42,35 @@ public class Dictator : MonoBehaviour
     // : Load
     public static void LoadScene(Enum.eScene eScene)
     {
+        // :: Clean
+        DOTween.KillAll();
+
+        // :: Do
         int sceneID = (int)eScene;
         AsyncOperation sync = SceneManager.LoadSceneAsync(sceneID);
         sync.completed += scene =>
         {
             if (scene.isDone)
-                InitScene(eScene);
+                switch(eScene)
+                {
+                    case Enum.eScene.INTRO:
+                        InitScene<Intro_Ruler>();
+                        break;
+                    case Enum.eScene.TITLE:
+                        InitScene<Title_Ruler>();
+                        break;
+                    case Enum.eScene.IN_KINDER:
+                        InitScene<InKinder_Ruler>();
+                        break;
+                }
         };
     }
 
     // : Init
-    public static void InitScene(Enum.eScene eScene)
+    public static void InitScene<T>() where T : Ruler
     {
-        switch(eScene)
-        {
-            case Enum.eScene.INTRO:
-                InitScene_Intro();
-                break;
-            case Enum.eScene.TITLE:
-                break;
-            case Enum.eScene.IN_KINDER:
-                break;
-        }
-    }
-    public static void InitScene_Intro()
-    {
-        Intro_Ruler ruler = GameObject.FindObjectOfType<Intro_Ruler>();
-        ruler.Init();
+        var Ruler = GameObject.FindObjectOfType<T>();
+        Ruler.Init();
     }
 
     // : Debug
@@ -81,6 +84,11 @@ public class Dictator : MonoBehaviour
         string log = string.Format(":: App Version : {0}", Application.version);
         Debug.Log(log);
     }
+    public static void Debug_CheckAssign(string scriptName)
+    {
+        string log = string.Format(":: {0} has Null Object", scriptName);
+        Debug.LogError(log);
+    }
     public static void Debug_CheckDictator()
     {
         Dictator dictator = GameObject.FindObjectOfType<Dictator>();
@@ -92,4 +100,5 @@ public class Dictator : MonoBehaviour
         string log = string.Format(":: {0} Init Complete", scriptName);
         Debug.Log(log);
     }
+    
 }

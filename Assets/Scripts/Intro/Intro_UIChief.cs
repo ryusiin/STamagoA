@@ -2,31 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
-public class Intro_UIChief : MonoBehaviour
+public class Intro_UIChief : UIChief
 {
     // : Holder
     [SerializeField]
     private Image IMAGE_Logo;
-
-    // : Status
-    const float LOGO_FADE_OUT = 0f;
-    const float LOGO_FADE_IN = 1f;
-    const float LOGO_FADE_DURATION = 1f;
+    [SerializeField]
+    private Image IMAGE_Dim;
 
     // : Init
-    public void Init()
+    public override void Init()
     {
+        // :: Check
+        this.Check_Assign(this.IMAGE_Logo,
+            this.IMAGE_Dim);
+
+        // :: Controller
+        this.DIMController = new DIMController(IMAGE_Dim);
+
         // :: Init Complete
         Dictator.Debug_Init(this.ToString());
     }
 
-    // : Set
-    private void SetAlpha_Logo(float alpha)
+    // : Fade
+    const float FADE_DURATION = 1.5f;
+    public void FadeIn_Dim(System.Action action)
     {
-        Color curColor = this.IMAGE_Logo.color;
-        Color newColor = new Color(curColor.r, curColor.g, curColor.b, alpha);
-        this.IMAGE_Logo.color = newColor;
+        this.DIMController.Callback_FadeIn = action;
+        this.DIMController.FadeIn(FADE_DURATION);
+    }
+    public void FadeOut_Dim(System.Action action)
+    {
+        this.DIMController.Callback_FadeOut = action;
+        this.DIMController.FadeOut(FADE_DURATION);
     }
 }

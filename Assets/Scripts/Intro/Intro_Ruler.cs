@@ -1,20 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public class Intro_Ruler : MonoBehaviour
+public class Intro_Ruler : Ruler
 {
-    // : 0 Awake
-    private void Awake()
-    {
-        Dictator.Debug_CheckDictator();
-    }
-
     // : Chief
     private Intro_UIChief UIChief;
 
     // : Init
-    public void Init()
+    public override void Init()
     {
         // :: Chief
         this.UIChief = GameObject.FindObjectOfType<Intro_UIChief>();
@@ -28,9 +23,16 @@ public class Intro_Ruler : MonoBehaviour
     }
 
     // : Scenario
-    private void ScenarioStart()
+    protected override void ScenarioStart()
     {
-        // :: 딤 만들어서 페이드 인
-        // :: 끝나면 페이드 아웃
+        this.UIChief.FadeIn_Dim(() => {
+            this.ScenarioEnd();
+        });
+    }
+    protected override void ScenarioEnd()
+    {
+        this.UIChief.FadeOut_Dim(() => {
+            Dictator.LoadScene(Enum.eScene.TITLE);
+        });
     }
 }
