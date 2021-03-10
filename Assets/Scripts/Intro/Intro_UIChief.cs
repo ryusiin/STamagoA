@@ -21,6 +21,9 @@ public class Intro_UIChief : UIChief
         // :: Controller
         this.DIMController = new DIMController(IMAGE_Dim);
 
+        // :: Dim
+        this.DIMController.On(true);
+
         // :: Init Complete
         Dictator.Debug_Init(this.ToString());
     }

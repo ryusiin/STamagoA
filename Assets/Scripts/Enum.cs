@@ -15,4 +15,8 @@ public class Enum {
         IN,
         OUT
     }
+    public enum eError
+    {
+        NETWORK_CONNECTION_FAILED = 404
+    }
 }

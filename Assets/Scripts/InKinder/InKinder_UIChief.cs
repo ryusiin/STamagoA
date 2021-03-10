@@ -29,8 +29,11 @@ public class InKinder_UIChief : UIChief
             this.BUTTON_Clean,
             this.BUTTON_Factory);
 
-        // :: Dim
+        // :: Controller
         this.DIMController = new DIMController(this.IMAGE_Dim);
+
+        // :: Dim
+        this.DIMController.On(true);
 
         // :: Init Complete
         Dictator.Debug_Init(this.ToString());
@@ -55,7 +58,7 @@ public class InKinder_UIChief : UIChief
     }
 
     // : Fade
-    const float FADE_DURATION = 1.5f;
+    const float FADE_DURATION = 3f;
     public void FadeIn_Dim(System.Action action)
     {
         this.DIMController.Callback_FadeIn = action;

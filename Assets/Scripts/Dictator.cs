@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using System;
 
 public class Dictator : MonoBehaviour
 {
@@ -16,14 +18,17 @@ public class Dictator : MonoBehaviour
         if (hashThis != hashFound)
             Object.Destroy(dictatorFound.gameObject);
 
-        // ::
+        // :: Use Always
         DontDestroyOnLoad(this.gameObject);
 
         // :: Init
         this.Init();
     }
 
-    // : Status
+    // : Controller
+    private INFOController_Player INFOController_Player;
+    // : Manager
+    private TIMEManager TIMEManager;
 
     // : Init
     private void Init()
@@ -32,11 +37,59 @@ public class Dictator : MonoBehaviour
         Debug_AppName();
         Debug_AppVersion();
 
+        // :: Manager
+        this.TIMEManager = this.gameObject.AddComponent<TIMEManager>();
+        this.TIMEManager.Callback_ReachedMinute = this.Scenario_ReachedMinute;
+        this.TIMEManager.Init();
+
+        // :: Controller
+        this.INFOController_Player = new INFOController_Player();
+        this.INFOController_Player.Please_SetDate_Start = this.Scenario_SetDate_Start;
+        this.INFOController_Player.Please_SetDate_Last = this.Scenario_SetDate_Last;
+        this.INFOController_Player.Init();
+
         // :: Init Complete
         Debug_Init(this.ToString());
 
         // :: Load Scene
         LoadScene(Enum.eScene.INTRO);
+
+        // :: Scenario Start
+        this.Scenario_Start();
+    }
+
+    // : Scenario
+    private void Scenario_Start()
+    {
+        // : Check Gap
+        int gapTime = this.GetTime_Gap();
+        if (gapTime > 0)
+            this.Scenario_Reward_Offline(gapTime);
+    }
+    private void Scenario_Reward_Offline(int gapTime)
+    {
+        Debug.Log(string.Format("Time gap is : <color=red>{0}</color>", gapTime));
+        Debug.Log(string.Format("***** 여기서 오프라인 리워드 주기"));
+        // :: 오프라인 리워드 주기
+
+        // :: Reset Last Time
+        this.Scenario_SetDate_Last();
+    }
+    private void Scenario_ReachedMinute(DateTime curTime)
+    {
+        this.INFOController_Player.SetDate_Last(curTime);
+
+        Debug.Log(string.Format("<color=red>{0}</color>", curTime));
+    }
+    private void Scenario_SetDate_Start()
+    {
+        DateTime curTime = this.TIMEManager.GetCurTime();
+        this.INFOController_Player.SetDate_Start(curTime);
+    }
+    private void Scenario_SetDate_Last()
+    {
+        DateTime curTime = this.TIMEManager.GetCurTime();
+        this.INFOController_Player.SetDate_Last(curTime);
     }
 
     // : Load
@@ -64,6 +117,20 @@ public class Dictator : MonoBehaviour
                         break;
                 }
         };
+    }
+
+    // : Get
+    private int GetTime_Gap()
+    {
+        DateTime curTime = this.TIMEManager.GetCurTime();
+        DateTime lastTime = this.INFOController_Player.GetTime_Last();
+
+        Debug.Log(string.Format("Time Current is : <color=yellow>{0}</color>", curTime));
+        Debug.Log(string.Format("Time Last is : <color=green>{0}</color>", lastTime));
+
+        TimeSpan gapTime = curTime - lastTime;
+
+        return (int)gapTime.TotalMinutes;
     }
 
     // : Init
@@ -98,7 +165,13 @@ public class Dictator : MonoBehaviour
     public static void Debug_Init(string scriptName)
     {
         string log = string.Format(":: {0} Init Complete", scriptName);
-        Debug.Log(log);
+        //Debug.Log(log);
+    }
+    public static void Debug_Error(Enum.eError eError)
+    {
+        // :: 이 부분 에러 JSON 데이터 코드로 바꾸게 하기
+        if (eError == Enum.eError.NETWORK_CONNECTION_FAILED)
+            Debug.Log("에러!");
     }
     
 }

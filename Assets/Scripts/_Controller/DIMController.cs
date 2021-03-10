@@ -19,18 +19,25 @@ public class DIMController
         this.IMAGE_Dim = IMAGE_Dim;
     }
 
+    // : On
+    public void On(bool check)
+    {
+        this.IMAGE_Dim.gameObject.SetActive(check);
+    }
+
     // : Fade
     public System.Action Callback_FadeIn = null;
     public void FadeIn(float duration)
     {
         // :: Init
         this.SetAlpha(FADE_OUT);
-        this.IMAGE_Dim.gameObject.SetActive(true);
+        this.On(true);
 
         // :: Do
         this.IMAGE_Dim.DOFade(FADE_IN, duration)
+            .SetEase(Ease.Linear)
             .onComplete = () => {
-                this.IMAGE_Dim.gameObject.SetActive(false);
+                this.On(false);
                 this.Callback_FadeIn?.Invoke();
             };
     }
@@ -39,10 +46,11 @@ public class DIMController
     {
         // :: Init
         this.SetAlpha(FADE_IN);
-        this.IMAGE_Dim.gameObject.SetActive(true);
+        this.On(true);
 
         // :: Do
         this.IMAGE_Dim.DOFade(FADE_OUT, duration)
+            .SetEase(Ease.Linear)
             .onComplete = () =>
             {
                 this.Callback_FadeOut?.Invoke();

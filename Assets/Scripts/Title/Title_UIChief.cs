@@ -28,6 +28,9 @@ public class Title_UIChief : UIChief
         this.DIMController = new DIMController(IMAGE_Dim);
         this.TEXTController = new TEXTController();
 
+        // :: Dim
+        this.DIMController.On(true);
+
         // :: Init Complete
         Dictator.Debug_Init(this.ToString());
     }
