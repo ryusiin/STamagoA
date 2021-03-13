@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 public class INFOController_Zombie
 {
     // : Constructor
-    public INFOController_Zombie() { }
+    public INFOController_Zombie() { this.Init(); }
 
     // : Status
     private Info_Zombie infoZombie_Load;
 
     // : Init
-    public void Init()
+    private void Init()
     {
         // :: Load Data
         string json = this.LoadFile();

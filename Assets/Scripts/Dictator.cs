@@ -30,16 +30,15 @@ public class Dictator : MonoBehaviour, ISubject
 
     // : Controller
     private INFOController_Player INFOController_Player;
-    private INFOController_Zombie INFOController_Zombie;
 
     // : Manager
     private TIMEManager TIMEManager;
 
     // : Singer
     private DATASinger DATASinger;
+    private STATUSSinger STATUSSinger;
 
     // : Status
-    public static Class_Zombie Zombie_Current { get; private set; }
     private List<IObserver> observers;
 
     // : Init
@@ -59,11 +58,10 @@ public class Dictator : MonoBehaviour, ISubject
         this.INFOController_Player.Please_SetDate_Start = this.Scenario_SetDate_Start;
         this.INFOController_Player.Please_SetDate_Last = this.Scenario_SetDate_Last;
         this.INFOController_Player.Init();
-        this.INFOController_Zombie = new INFOController_Zombie();
-        this.INFOController_Zombie.Init();
 
         // :: Singer
         this.DATASinger = DATASinger.Instance();
+        this.STATUSSinger = STATUSSinger.Instance();
 
         // :: Status
         this.observers = new List<IObserver>();
@@ -83,9 +81,6 @@ public class Dictator : MonoBehaviour, ISubject
     // : Scenario
     private void Scenario_Start()
     {
-        // :: Check Zombie
-        Zombie_Current = this.INFOController_Zombie.GetZombie_Current();
-
         // :: Check Gap
         int gapTime = this.GetTime_Gap();
         if (gapTime > 0)
@@ -93,32 +88,31 @@ public class Dictator : MonoBehaviour, ISubject
     }
     private void Scenario_Reward_Offline(int gapTime)
     {
-        // :: Subtract Calm Down
-        Zombie_Current.SubStatus_CalmDown(gapTime);
-
         Debug.Log(string.Format("Time gap is : <color=red>{0}</color>", gapTime));
         Debug.Log(string.Format("***** 여기서 오프라인 리워드 주기"));
-        // :: 오프라인 리워드 주기
+
+        // :: Sub Calm Down
+        this.STATUSSinger.AddStatus_CurrentZombie_CalmDown(-gapTime);
 
         // :: Update
         this.Scenario_SetDate_Last();
-        this.INFOController_Zombie.Save(Zombie_Current.Info);
+
+        // :: Notify Observers
+        this.NotifyObservers_UpdateStatus();
     }
     private void Scenario_ReachedMinute(DateTime curTime)
     {
-        // :: Subtract Calm Down
-        Zombie_Current.SubStatus_CalmDown();
+        Debug.Log(string.Format("<color=red>{0}</color>", curTime));
+        Debug.Log(string.Format("***** 여기서 분 리워드 주기"));
 
-        // :: Notify Observers
-        this.NotifyObservers_Minute();
+        // :: Sub Calm Down
+        this.STATUSSinger.AddStatus_CurrentZombie_CalmDown(-1);
 
         // :: Update
         this.INFOController_Player.SetDate_Last(curTime);
-        this.INFOController_Zombie.Save(Zombie_Current.Info);
-        
 
-        Debug.Log(string.Format("<color=red>{0}</color>", curTime));
-        Debug.Log(string.Format("***** 여기서 분 리워드 주기"));
+        // :: Notify Observers
+        this.NotifyObservers_UpdateMinute();
     }
     private void Scenario_SetDate_Start()
     {
@@ -218,9 +212,14 @@ public class Dictator : MonoBehaviour, ISubject
             observers.Remove(observer);
     }
 
-    public void NotifyObservers_Minute()
+    public void NotifyObservers_UpdateMinute()
     {
         foreach (IObserver observer in observers)
             observer.UpdateMinute();
+    }
+    public void NotifyObservers_UpdateStatus()
+    {
+        foreach (IObserver observer in observers)
+            observer.UpdateStatus();
     }
 }

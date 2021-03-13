@@ -8,6 +8,9 @@ public class InKinder_Ruler : Ruler, IObserver
     private InKinder_UIChief UIChief;
     private InKinder_GOChief GOChief;
 
+    // : Singer
+    private STATUSSinger STATUSSinger;
+
     // : Init
     public override void Init()
     {
@@ -16,6 +19,9 @@ public class InKinder_Ruler : Ruler, IObserver
         this.UIChief.Init();
         this.GOChief = GameObject.FindObjectOfType<InKinder_GOChief>();
         this.GOChief.Init();
+
+        // :: Singer
+        this.STATUSSinger = STATUSSinger.Instance();
 
         // :: Button Scenario
         this.ScenarioButtons();
@@ -53,6 +59,10 @@ public class InKinder_Ruler : Ruler, IObserver
         this.AddButtonScenario_Clean();
         this.AddButtonScenario_Factory();
     }
+    private void ScenarioFood()
+    {
+        this.GOChief.ShowFood(Enum.eFood.BASIC_MEAT);
+    }
     protected override void ScenarioEnd()
     {
         throw new System.NotImplementedException();
@@ -61,25 +71,25 @@ public class InKinder_Ruler : Ruler, IObserver
     // : Update
     public void UpdateStatus_CalmDown()
     {
-        float percent = Dictator.Zombie_Current.GetStatus_CalmDown();
+        float percent = this.STATUSSinger.GetStatus_CurrentZombie_CalmDown();
         this.UIChief.SetStatus_CalmDown(percent);
     }
 
     // : Set
     public void SetZombie()
     {
-        Enum.eZombie eZombie = Dictator.Zombie_Current.Info.type;
+        Enum.eZombie eZombie = this.STATUSSinger.GetType_CurrentZombie();
         this.GOChief.SetZombie(eZombie);
     }
 
     // : Add Button Scenario
+    private void AddButtonScenario_Food()
+    {
+        this.UIChief.AddButtonListner_Food(this.ScenarioFood);
+    }
     private void AddButtonScenario_Training()
     {
         this.UIChief.AddButtonListner_Training(() => { Debug.Log("Training Click"); });
-    }
-    private void AddButtonScenario_Food()
-    {
-        this.UIChief.AddButtonListner_Food(() => { Debug.Log("Food Click"); });
     }
     private void AddButtonScenario_Clean()
     {
@@ -92,6 +102,11 @@ public class InKinder_Ruler : Ruler, IObserver
 
     // :: Observer Pattern
     public void UpdateMinute()
+    {
+        this.UpdateStatus_CalmDown();
+    }
+
+    public void UpdateStatus()
     {
         this.UpdateStatus_CalmDown();
     }

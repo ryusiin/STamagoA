@@ -37,17 +37,14 @@ public class Class_Zombie
         return percent;
     }
 
-    // : Sub
-    public void SubStatus_CalmDown(int sub = 1)
+    // : Add
+    public void AddStatus_CalmDown(int stat)
     {
-        // :: EXIT
-        if (this.Info.current_calm_down <= 0)
-            return;
+        // :: Add
+        this.Info.current_calm_down += stat;
 
         // :: Stabilize
-        if (sub > this.Info.current_calm_down)
-            sub = this.Info.current_calm_down;
-
-        this.Info.current_calm_down -= sub;
+        if (this.Info.current_calm_down < 0)
+            this.Info.current_calm_down = 0;
     }
 }

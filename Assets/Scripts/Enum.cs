@@ -29,6 +29,11 @@ public class Enum {
     {
         EMMA = 1
     }
+
+    public enum eFood
+    {
+        BASIC_MEAT = 1
+    }
     public enum eStatus
     {
         WAITING,
