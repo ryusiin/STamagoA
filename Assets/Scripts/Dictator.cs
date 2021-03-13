@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
 
-public class Dictator : MonoBehaviour
+public class Dictator : MonoBehaviour, ISubject
 {
     // : 0 Awake
     private void Awake()
@@ -21,14 +21,26 @@ public class Dictator : MonoBehaviour
         // :: Use Always
         DontDestroyOnLoad(this.gameObject);
 
+        // :: Load Scene
+        LoadScene(Enum.eScene.INTRO);
+
         // :: Init
         this.Init();
     }
 
     // : Controller
     private INFOController_Player INFOController_Player;
+    private INFOController_Zombie INFOController_Zombie;
+
     // : Manager
     private TIMEManager TIMEManager;
+
+    // : Singer
+    private DATASinger DATASinger;
+
+    // : Status
+    public static Class_Zombie Zombie_Current { get; private set; }
+    private List<IObserver> observers;
 
     // : Init
     private void Init()
@@ -47,39 +59,66 @@ public class Dictator : MonoBehaviour
         this.INFOController_Player.Please_SetDate_Start = this.Scenario_SetDate_Start;
         this.INFOController_Player.Please_SetDate_Last = this.Scenario_SetDate_Last;
         this.INFOController_Player.Init();
+        this.INFOController_Zombie = new INFOController_Zombie();
+        this.INFOController_Zombie.Init();
+
+        // :: Singer
+        this.DATASinger = DATASinger.Instance();
+
+        // :: Status
+        this.observers = new List<IObserver>();
 
         // :: Init Complete
         Debug_Init(this.ToString());
 
-        // :: Load Scene
-        LoadScene(Enum.eScene.INTRO);
-
         // :: Scenario Start
         this.Scenario_Start();
+    }
+    private static void InitScene<T>() where T : Ruler
+    {
+        var Ruler = GameObject.FindObjectOfType<T>();
+        Ruler.Init();
     }
 
     // : Scenario
     private void Scenario_Start()
     {
-        // : Check Gap
+        // :: Check Zombie
+        Zombie_Current = this.INFOController_Zombie.GetZombie_Current();
+
+        // :: Check Gap
         int gapTime = this.GetTime_Gap();
         if (gapTime > 0)
             this.Scenario_Reward_Offline(gapTime);
     }
     private void Scenario_Reward_Offline(int gapTime)
     {
+        // :: Subtract Calm Down
+        Zombie_Current.SubStatus_CalmDown(gapTime);
+
         Debug.Log(string.Format("Time gap is : <color=red>{0}</color>", gapTime));
         Debug.Log(string.Format("***** 여기서 오프라인 리워드 주기"));
         // :: 오프라인 리워드 주기
 
-        // :: Reset Last Time
+        // :: Update
         this.Scenario_SetDate_Last();
+        this.INFOController_Zombie.Save(Zombie_Current.Info);
     }
     private void Scenario_ReachedMinute(DateTime curTime)
     {
+        // :: Subtract Calm Down
+        Zombie_Current.SubStatus_CalmDown();
+
+        // :: Notify Observers
+        this.NotifyObservers_Minute();
+
+        // :: Update
         this.INFOController_Player.SetDate_Last(curTime);
+        this.INFOController_Zombie.Save(Zombie_Current.Info);
+        
 
         Debug.Log(string.Format("<color=red>{0}</color>", curTime));
+        Debug.Log(string.Format("***** 여기서 분 리워드 주기"));
     }
     private void Scenario_SetDate_Start()
     {
@@ -133,13 +172,6 @@ public class Dictator : MonoBehaviour
         return (int)gapTime.TotalMinutes;
     }
 
-    // : Init
-    public static void InitScene<T>() where T : Ruler
-    {
-        var Ruler = GameObject.FindObjectOfType<T>();
-        Ruler.Init();
-    }
-
     // : Debug
     public static void Debug_AppName()
     {
@@ -173,5 +205,22 @@ public class Dictator : MonoBehaviour
         if (eError == Enum.eError.NETWORK_CONNECTION_FAILED)
             Debug.Log("에러!");
     }
-    
+
+    // :: Observer Pattern
+    public void RegisterObserver(IObserver observer)
+    {
+        this.observers.Add(observer);
+    }
+
+    public void RemoveObserver(IObserver observer)
+    {
+        if (this.observers.Contains(observer))
+            observers.Remove(observer);
+    }
+
+    public void NotifyObservers_Minute()
+    {
+        foreach (IObserver observer in observers)
+            observer.UpdateMinute();
+    }
 }

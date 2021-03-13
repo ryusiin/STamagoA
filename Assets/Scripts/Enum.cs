@@ -19,4 +19,21 @@ public class Enum {
     {
         NETWORK_CONNECTION_FAILED = 404
     }
+    public enum eColor
+    {
+        GREEN,
+        YELLOW,
+        RED
+    }
+    public enum eZombie
+    {
+        EMMA = 1
+    }
+    public enum eStatus
+    {
+        WAITING,
+        CURRENT,
+        RELEASE,
+        FACTORY
+    }
 }

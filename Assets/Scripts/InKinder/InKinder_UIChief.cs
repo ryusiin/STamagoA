@@ -18,6 +18,9 @@ public class InKinder_UIChief : UIChief
     [SerializeField]
     private Button BUTTON_Factory;
 
+    // :: Leader
+    private InKinder_UILeader_CalmDown UILeader_CalmDown;
+
     // : Init
     public override void Init()
     {
@@ -31,6 +34,10 @@ public class InKinder_UIChief : UIChief
 
         // :: Controller
         this.DIMController = new DIMController(this.IMAGE_Dim);
+
+        // :: Leader
+        this.UILeader_CalmDown = GameObject.FindObjectOfType<InKinder_UILeader_CalmDown>();
+        this.UILeader_CalmDown.Init();
 
         // :: Dim
         this.DIMController.On(true);
@@ -55,6 +62,12 @@ public class InKinder_UIChief : UIChief
     public void AddButtonListner_Factory(System.Action action)
     {
         this.BUTTON_Factory.onClick.AddListener(() => { action(); });
+    }
+
+    // : Set
+    public void SetStatus_CalmDown(float percent)
+    {
+        this.UILeader_CalmDown.SetStatus(percent);
     }
 
     // : Fade
