@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InKinder_Ruler : Ruler, IObserver
+public partial class InKinder_Ruler : Ruler, IObserverForChangeStatus
 {
     // : Chief
     private InKinder_UIChief UIChief;
     private InKinder_GOChief GOChief;
 
-    // : Singer
-    private STATUSSinger STATUSSinger;
+    // : Engineer
+    private InKinder_SCENARIOEngineer SCENARIOEngineer;
 
     // : Init
     public override void Init()
@@ -20,8 +20,13 @@ public class InKinder_Ruler : Ruler, IObserver
         this.GOChief = GameObject.FindObjectOfType<InKinder_GOChief>();
         this.GOChief.Init();
 
-        // :: Singer
-        this.STATUSSinger = STATUSSinger.Instance();
+        // :: Engineer
+        // >> Packing
+        Class_Chiefs chiefs = 
+            new Class_Chiefs(this.UIChief, this.GOChief);
+        // >> Init
+        this.SCENARIOEngineer = this.gameObject.AddComponent<InKinder_SCENARIOEngineer>();
+        this.SCENARIOEngineer.Init(chiefs);
 
         // :: Button Scenario
         this.ScenarioButtons();
@@ -40,76 +45,23 @@ public class InKinder_Ruler : Ruler, IObserver
     // : Scenario
     protected override void ScenarioStart()
     {
-        // :: Set Zombie Character
-        this.SetZombie();
-
-        // :: Update Calm Down
-        this.UpdateStatus_CalmDown();
-
-        // :: Fade
-        this.UIChief.FadeIn_Dim(() =>
-        {
-            Debug.Log("InKinder 시작");
-        });
+        this.SCENARIOEngineer.Scenario_Start();
     }
     private void ScenarioButtons()
     {
-        this.AddButtonScenario_Training();
-        this.AddButtonScenario_Food();
-        this.AddButtonScenario_Clean();
-        this.AddButtonScenario_Factory();
-    }
-    private void ScenarioFood()
-    {
-        Debug.Log("***** Food를 JSON으로 처리할 지, 여러 번에 걸쳐할지 확인 필요");
-        this.GOChief.ShowFood(Enum.eFood.BASIC_MEAT);
-        this.STATUSSinger.AddStatus_CurrentZombie_CalmDown(1);
+        // :: Food
+        this.UIChief.AddButtonListner_Food(this.SCENARIOEngineer.Scenario_Food);
+        this.UIChief.AddButtonListner_Training(this.SCENARIOEngineer.Scenario_Training);
+        this.UIChief.AddButtonListner_Clean(this.SCENARIOEngineer.Scenario_Clean);
+        this.UIChief.AddButtonListner_Factory(this.SCENARIOEngineer.Scenario_Factory);
     }
     protected override void ScenarioEnd()
     {
-        throw new System.NotImplementedException();
-    }
-
-    // : Update
-    public void UpdateStatus_CalmDown()
-    {
-        float percent = this.STATUSSinger.GetStatus_CurrentZombie_CalmDown();
-        this.UIChief.SetStatus_CalmDown(percent);
-    }
-
-    // : Set
-    public void SetZombie()
-    {
-        Enum.eZombie eZombie = this.STATUSSinger.GetType_CurrentZombie();
-        this.GOChief.SetZombie(eZombie);
-    }
-
-    // : Add Button Scenario
-    private void AddButtonScenario_Food()
-    {
-        this.UIChief.AddButtonListner_Food(this.ScenarioFood);
-    }
-    private void AddButtonScenario_Training()
-    {
-        this.UIChief.AddButtonListner_Training(() => { Debug.Log("Training Click"); });
-    }
-    private void AddButtonScenario_Clean()
-    {
-        this.UIChief.AddButtonListner_Clean(() => { Debug.Log("Clean Click"); });
-    }
-    private void AddButtonScenario_Factory()
-    {
-        this.UIChief.AddButtonListner_Factory(() => { Debug.Log("Factory Click"); });
     }
 
     // :: Observer Pattern
-    public void UpdateMinute()
-    {
-        this.UpdateStatus_CalmDown();
-    }
-
     public void UpdateStatus()
     {
-        this.UpdateStatus_CalmDown();
+        this.SCENARIOEngineer.Scenario_Update();
     }
 }

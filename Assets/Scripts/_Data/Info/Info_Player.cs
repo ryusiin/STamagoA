@@ -8,6 +8,4 @@ public class Info_Player
     public string nickname;
     public string start_date;
     public string last_date;
-
-
 }

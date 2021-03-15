@@ -4,20 +4,10 @@ using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class DATASinger
+public class DATAController_Zombie
 {
-    // : Singleton
-    private static DATASinger instance = null;
-    public static DATASinger Instance()
-    {
-        if (instance == null)
-            instance = new DATASinger();
-
-        return instance;
-    }
-
     // : Constructor
-    public DATASinger() { this.Init(); }
+    public DATAController_Zombie() { this.Init(); }
 
     // : Init
     public void Init() {

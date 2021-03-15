@@ -2,20 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class STATUSSinger
+public class STATUSEngineer
 {
-    // : Singleton
-    private static STATUSSinger instance = null;
-    public static STATUSSinger Instance()
-    {
-        if (instance == null)
-            instance = new STATUSSinger();
-
-        return instance;
-    }
-
     // : Constructor
-    public STATUSSinger() { this.Init(); }
+    public STATUSEngineer() { this.Init(); }
 
     // : Controller
     private INFOController_Zombie INFOController;
@@ -50,6 +40,10 @@ public class STATUSSinger
     }
 
     // : Get
+    public Class_Zombie Get_CurrentZombie()
+    {
+        return this.Zombie_Current;
+    }
     public Enum.eZombie GetType_CurrentZombie()
     {
         return this.Zombie_Current.Info.type;

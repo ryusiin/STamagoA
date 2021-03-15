@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IObserver
+public interface IObserverForChangeStatus
 {
-    void UpdateMinute();
     void UpdateStatus();
 }

@@ -9,12 +9,18 @@ public class INFOController_Zombie
     // : Constructor
     public INFOController_Zombie() { this.Init(); }
 
+    // : Controller
+    private DATAController_Zombie DATAController;
+
     // : Status
     private Info_Zombie infoZombie_Load;
 
     // : Init
     private void Init()
     {
+        // :: Controller
+        this.DATAController = new DATAController_Zombie();
+
         // :: Load Data
         string json = this.LoadFile();
         if (json == null)
@@ -34,7 +40,7 @@ public class INFOController_Zombie
     public Class_Zombie GetZombie_Current()
     {
         Enum.eZombie eZombie = this.infoZombie_Load.type;
-        Data_Zombie dataZombie = DATASinger.Instance().DictZombie[eZombie];
+        Data_Zombie dataZombie = DATAController.DictZombie[eZombie];
         Class_Zombie curZombie = new Class_Zombie(dataZombie);
         curZombie.ChangeInfo(this.infoZombie_Load);
 
@@ -68,7 +74,7 @@ public class INFOController_Zombie
     private string SetInit()
     {
         // :: Make
-        Data_Zombie dataZombie = DATASinger.Instance().DictZombie[Enum.eZombie.EMMA];
+        Data_Zombie dataZombie = DATAController.DictZombie[Enum.eZombie.EMMA];
         Class_Zombie newZombie = new Class_Zombie(dataZombie);
         this.infoZombie_Load = newZombie.Info;
 

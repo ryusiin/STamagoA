@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
 
-public class Dictator : MonoBehaviour, ISubject
+public class Dictator : MonoBehaviour, ISubjectForChangeStatus
 {
     // : 0 Awake
     private void Awake()
@@ -34,12 +34,11 @@ public class Dictator : MonoBehaviour, ISubject
     // : Manager
     private TIMEManager TIMEManager;
 
-    // : Singer
-    private DATASinger DATASinger;
-    private STATUSSinger STATUSSinger;
+    // : Engineer
+    public static STATUSEngineer STATUSEngineer { get; private set; }
 
     // : Status
-    private List<IObserver> observers;
+    private List<IObserverForChangeStatus> observers;
 
     // : Init
     private void Init()
@@ -59,13 +58,12 @@ public class Dictator : MonoBehaviour, ISubject
         this.INFOController_Player.Please_SetDate_Last = this.Scenario_SetDate_Last;
         this.INFOController_Player.Init();
 
-        // :: Singer
-        this.DATASinger = DATASinger.Instance();
-        this.STATUSSinger = STATUSSinger.Instance();
-        this.STATUSSinger.Callback_UpdateStatus = this.NotifyObservers_UpdateStatus;
+        // :: Engineer
+        STATUSEngineer = new STATUSEngineer();
+        STATUSEngineer.Callback_UpdateStatus = this.NotifyObservers_UpdateStatus;
 
         // :: Status
-        this.observers = new List<IObserver>();
+        this.observers = new List<IObserverForChangeStatus>();
 
         // :: Init Complete
         Debug_Init(this.ToString());
@@ -93,7 +91,7 @@ public class Dictator : MonoBehaviour, ISubject
         Debug.Log(string.Format("***** 여기서 오프라인 리워드 주기"));
 
         // :: Sub Calm Down
-        this.STATUSSinger.AddStatus_CurrentZombie_CalmDown(-gapTime);
+        STATUSEngineer.AddStatus_CurrentZombie_CalmDown(-gapTime);
 
         // :: Update
         this.Scenario_SetDate_Last();
@@ -107,13 +105,13 @@ public class Dictator : MonoBehaviour, ISubject
         Debug.Log(string.Format("***** 여기서 분 리워드 주기"));
 
         // :: Sub Calm Down
-        this.STATUSSinger.AddStatus_CurrentZombie_CalmDown(-1);
+        STATUSEngineer.AddStatus_CurrentZombie_CalmDown(-1);
 
         // :: Update
         this.INFOController_Player.SetDate_Last(curTime);
 
         // :: Notify Observers
-        this.NotifyObservers_UpdateMinute();
+        this.NotifyObservers_UpdateStatus();
     }
     private void Scenario_SetDate_Start()
     {
@@ -202,25 +200,19 @@ public class Dictator : MonoBehaviour, ISubject
     }
 
     // :: Observer Pattern
-    public void RegisterObserver(IObserver observer)
+    public void RegisterObserver(IObserverForChangeStatus observer)
     {
         this.observers.Add(observer);
     }
 
-    public void RemoveObserver(IObserver observer)
+    public void RemoveObserver(IObserverForChangeStatus observer)
     {
         if (this.observers.Contains(observer))
             observers.Remove(observer);
     }
-
-    public void NotifyObservers_UpdateMinute()
-    {
-        foreach (IObserver observer in observers)
-            observer.UpdateMinute();
-    }
     public void NotifyObservers_UpdateStatus()
     {
-        foreach (IObserver observer in observers)
+        foreach (IObserverForChangeStatus observer in observers)
             observer.UpdateStatus();
     }
 }
