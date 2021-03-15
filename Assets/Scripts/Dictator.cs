@@ -62,6 +62,7 @@ public class Dictator : MonoBehaviour, ISubject
         // :: Singer
         this.DATASinger = DATASinger.Instance();
         this.STATUSSinger = STATUSSinger.Instance();
+        this.STATUSSinger.Callback_UpdateStatus = this.NotifyObservers_UpdateStatus;
 
         // :: Status
         this.observers = new List<IObserver>();

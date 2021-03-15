@@ -61,7 +61,9 @@ public class InKinder_Ruler : Ruler, IObserver
     }
     private void ScenarioFood()
     {
+        Debug.Log("***** Food를 JSON으로 처리할 지, 여러 번에 걸쳐할지 확인 필요");
         this.GOChief.ShowFood(Enum.eFood.BASIC_MEAT);
+        this.STATUSSinger.AddStatus_CurrentZombie_CalmDown(1);
     }
     protected override void ScenarioEnd()
     {

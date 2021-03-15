@@ -39,10 +39,14 @@ public class STATUSSinger
     }
 
     // : Sub
+    public System.Action Callback_UpdateStatus = null;
     public void AddStatus_CurrentZombie_CalmDown(int stat)
     {
         this.Zombie_Current.AddStatus_CalmDown(stat);
         this.INFOController.Save(this.Zombie_Current_Info);
+
+        // :: Callback
+        this.Callback_UpdateStatus.Invoke();
     }
 
     // : Get
