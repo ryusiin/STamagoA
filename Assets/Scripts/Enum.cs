@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enum {
+    public enum eAnimation
+    {
+        IDLE,
+        EAT
+    }
     public enum eScene
     {
         DICTATOR = 0,

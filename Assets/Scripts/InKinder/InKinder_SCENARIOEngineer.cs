@@ -57,6 +57,9 @@ public class InKinder_SCENARIOEngineer : Engineer
 
         // : Add Calm Down Status
         this.STATUSEngineer.AddStatus_CurrentZombie_CalmDown(1);
+
+        // : Eat Animation
+        this.GOChief.PlayAnimation_Eat();
     }
     public void Scenario_Training() {
         Debug.Log("Training Click");

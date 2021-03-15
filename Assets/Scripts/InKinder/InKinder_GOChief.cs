@@ -18,6 +18,9 @@ public class InKinder_GOChief : Chief
     // : Init
     public override void Init()
     {
+        // :: Leader
+        this.GOLeader_Zombies.Init();
+
         // :: Init Complete
         Dictator.Debug_Init(this.ToString());
     }
@@ -44,5 +47,10 @@ public class InKinder_GOChief : Chief
     {
         if(this.FOOD_Current.activeSelf == true)
             this.FOOD_Current.SetActive(false);
+    }
+    // : Play Animation
+    public void PlayAnimation_Eat()
+    {
+        this.GOLeader_Zombies.PlayAnimation(Enum.eAnimation.EAT);
     }
 }
