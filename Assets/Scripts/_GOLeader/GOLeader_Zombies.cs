@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GOLeader_Zombies : Leader
+public class GOLeader_Zombies : Leader, IAnimation
 {
     // : Assign
     [Header("Character")]
@@ -15,6 +15,9 @@ public class GOLeader_Zombies : Leader
     const string TRIGGER_EAT = "TRIGGER_Eat";
     private int hash_TRIGGER_Eat;
 
+    // :: Observe
+    private List<IObserver_Animation> listObservers_Animation;
+
     // : Init
     public override void Init()
     {
@@ -22,8 +25,11 @@ public class GOLeader_Zombies : Leader
         this.COMP_Animator = this.GetComponent<Animator>();
         this.hash_TRIGGER_Eat = Animator.StringToHash(TRIGGER_EAT);
 
+        // :: Observe
+        this.listObservers_Animation = new List<IObserver_Animation>();
+
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
     }
 
     // : Play
@@ -40,7 +46,7 @@ public class GOLeader_Zombies : Leader
     // : Receive
     public void Receive_EndAnimation()
     {
-        Debug.Log("Eat End");
+        this.NotifyObservers_EndAnimation();
     }
 
     // : Show
@@ -58,5 +64,22 @@ public class GOLeader_Zombies : Leader
     private void HideZombie_All()
     {
         this.ZOMBIE_Emma.SetActive(false);
+    }
+
+    // :: Observer Pattern
+    public void RegisterObserver(IObserver_Animation observer)
+    {
+        if(!this.listObservers_Animation.Contains(observer))
+            this.listObservers_Animation.Add(observer);
+    }
+    public void RemoveObserver(IObserver_Animation observer)
+    {
+        if (this.listObservers_Animation.Contains(observer))
+            this.listObservers_Animation.Remove(observer);
+    }
+    public void NotifyObservers_EndAnimation()
+    {
+        foreach(var observer in listObservers_Animation)
+            observer.EndAnimation();
     }
 }

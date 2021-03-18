@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Data_Zombie
+public class DATAZombie
 {
     public int id;
     public string name;

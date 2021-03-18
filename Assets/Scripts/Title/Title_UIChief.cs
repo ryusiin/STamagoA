@@ -32,7 +32,7 @@ public class Title_UIChief : UIChief
         this.DIMController.On(true);
 
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
     }
 
     // : Add Button Listner

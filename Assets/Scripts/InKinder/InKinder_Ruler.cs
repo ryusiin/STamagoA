@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class InKinder_Ruler : Ruler, IObserverForChangeStatus
+
+public partial class InKinder_Ruler : Ruler, IObserver_Policy, IObserver_Animation
 {
     // : Chief
     private InKinder_UIChief UIChief;
@@ -21,25 +22,35 @@ public partial class InKinder_Ruler : Ruler, IObserverForChangeStatus
         this.GOChief.Init();
 
         // :: Engineer
-        // >> Packing
-        Class_Chiefs chiefs = 
-            new Class_Chiefs(this.UIChief, this.GOChief);
-        // >> Init
-        this.SCENARIOEngineer = this.gameObject.AddComponent<InKinder_SCENARIOEngineer>();
-        this.SCENARIOEngineer.Init(chiefs);
+        this.SCENARIOEngineer = new InKinder_SCENARIOEngineer();
+        this.SCENARIOEngineer.InitMinister(this.Minister);
+        // >> Send
+        this.SendChiefs_ToScenario();
 
         // :: Button Scenario
         this.ScenarioButtons();
 
         // :: Observe
-        var dictator = GameObject.FindObjectOfType<Dictator>();
-        dictator.RegisterObserver(this);
+        this.Minister.POLICYSecretary.RegisterObserver(this);
+        this.GOChief.RegisterObserver_ForZombieAnimation(this);
 
         // :: Complete Init
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
 
         // :: Start Scenario
         this.ScenarioStart();
+    }
+
+    // : Send
+    public void SendChiefs_ToScenario()
+    {
+        // :: Packing
+        PACKChiefs pack = new PACKChiefs();
+        pack.UIChief = this.UIChief;
+        pack.GOChief = this.GOChief;
+
+        // :: Send
+        this.SCENARIOEngineer.InitChiefs(pack);
     }
 
     // : Scenario
@@ -60,8 +71,13 @@ public partial class InKinder_Ruler : Ruler, IObserverForChangeStatus
     }
 
     // :: Observer Pattern
-    public void UpdateStatus()
+    public void UpdatePolicy_Status()
     {
         this.SCENARIOEngineer.Scenario_Update();
+    }
+    public void EndAnimation()
+    {
+        Debug.Log("***** Animation 종료");
+        this.SCENARIOEngineer.Scenario_EndAnimation();
     }
 }

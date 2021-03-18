@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Engineer
+public abstract class Secretary : MonoBehaviour
 {
     // : Minister
     protected Minister Minister;
@@ -12,5 +12,5 @@ public abstract class Engineer
     }
 
     // : Init
-    protected abstract void Init();
+    public abstract void Init();
 }

@@ -22,13 +22,19 @@ public class InKinder_GOChief : Chief
         this.GOLeader_Zombies.Init();
 
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
     }
 
     // : Set
     public void SetZombie(Enum.eZombie eZombie)
     {
         this.GOLeader_Zombies.ShowZombie(eZombie);
+    }
+
+    // : Register
+    public void RegisterObserver_ForZombieAnimation(IObserver_Animation observer)
+    {
+        this.GOLeader_Zombies.RegisterObserver(observer);
     }
 
     // : Show

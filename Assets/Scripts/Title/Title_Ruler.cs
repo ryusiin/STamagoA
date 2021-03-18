@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class Title_Ruler : Ruler
 {
@@ -19,7 +18,7 @@ public class Title_Ruler : Ruler
         this.AddButtonScenario_GoTo_InKinder();
 
         // :: Init Complete 
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
 
         // :: Start Scenario
         this.ScenarioStart();
@@ -48,7 +47,7 @@ public class Title_Ruler : Ruler
     {
         this.UIChief.FadeOut_Dim(() =>
         {
-            Dictator.LoadScene(Enum.eScene.IN_KINDER);
+            this.Minister.LoadScene(Enum.eScene.IN_KINDER);
         });
     }
 }

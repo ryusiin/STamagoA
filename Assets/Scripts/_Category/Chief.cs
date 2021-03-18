@@ -10,7 +10,7 @@ public abstract class Chief : MonoBehaviour
         {
             if(obj == null)
             {
-                Dictator.Debug_CheckAssign(this.ToString());
+                Clerk.LogError(Enum.eError.NULL_OBJECT, this.ToString());
                 break;
             }
         }

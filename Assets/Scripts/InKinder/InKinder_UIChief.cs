@@ -17,6 +17,11 @@ public class InKinder_UIChief : UIChief
     private Button BUTTON_Clean;
     [SerializeField]
     private Button BUTTON_Factory;
+    [Header("Slider")]
+    [SerializeField]
+    private Slider SLIDER_Training;
+    [SerializeField]
+    private Slider SLIDER_Deadline;
 
     // :: Leader
     private InKinder_UILeader_CalmDown UILeader_CalmDown;
@@ -43,7 +48,7 @@ public class InKinder_UIChief : UIChief
         this.DIMController.On(true);
 
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
     }
 
     // : Button Listener
@@ -64,10 +69,28 @@ public class InKinder_UIChief : UIChief
         this.BUTTON_Factory.onClick.AddListener(() => { action(); });
     }
 
+    // : Can
+    public void CanClickButton_All(bool check)
+    {
+        this.BUTTON_Food.interactable = check;
+        this.BUTTON_Training.interactable = check;
+        this.BUTTON_Clean.interactable = check;
+        this.BUTTON_Factory.interactable = check;
+    }
+
     // : Set
     public void SetStatus_CalmDown(float percent)
     {
         this.UILeader_CalmDown.SetStatus(percent);
+    }
+    public void SetStatus_Trainig(float percent)
+    {
+        Debug.Log(")))" + percent);
+        this.SLIDER_Training.value = percent;
+    }
+    public void SetStatus_Deadline(float percent)
+    {
+        this.SLIDER_Deadline.value = percent;
     }
 
     // : Fade

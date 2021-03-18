@@ -25,7 +25,7 @@ public class Intro_UIChief : UIChief
         this.DIMController.On(true);
 
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
     }
 
     // : Fade

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Net;
 
-public class TIMEManager : MonoBehaviour
+public class TIMESecretary : Secretary
 {
     // : Const
     const string TIME_SERVER_URL = "http://www.google.com";
@@ -12,11 +12,11 @@ public class TIMEManager : MonoBehaviour
     // : Init
     private DateTime initTime;
     private DateTime addingTime;
-    public void Init()
+    public override void Init()
     {
+        // :: Status
         this.initTime = this.GetInitTime();
         this.addingTime = this.initTime;
-
         this.startUpdateTime = true;
     }
 
@@ -32,15 +32,15 @@ public class TIMEManager : MonoBehaviour
         }
         catch (Exception err)
         {
-            Dictator.Debug_Error(Enum.eError.NETWORK_CONNECTION_FAILED);
-            Debug.Log(err);
+            Clerk.LogError(Enum.eError.NETWORK_CONNECTION_FAILED, this.ToString());
+            Clerk.LogError(Enum.eError.NETWORK_CONNECTION_FAILED, err.ToString());
             initTime = DateTime.Now;
         }
 
         // :: Return
         return initTime;
     }
-    public DateTime GetCurTime()
+    public DateTime GetTime_Current()
     {
         return this.addingTime;
     }
@@ -57,7 +57,6 @@ public class TIMEManager : MonoBehaviour
             this.UpdateTime(Time.deltaTime);
         }
     }
-    public System.Action<DateTime> Callback_ReachedMinute;
     private void UpdateTime(float deltaTime)
     {
         this.checkTime += deltaTime;
@@ -69,7 +68,7 @@ public class TIMEManager : MonoBehaviour
             // :: Get
             this.addingTime = this.initTime.AddSeconds(this.checkTime);
             if (this.addingTime.Second == 0)
-                this.Callback_ReachedMinute(this.addingTime);
+                this.Minister.POLICYSecretary.PolicyDo_EveryMintues();
         }
     }
 }

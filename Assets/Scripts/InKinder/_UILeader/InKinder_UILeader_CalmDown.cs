@@ -9,7 +9,7 @@ public class InKinder_UILeader_CalmDown : Leader
     public override void Init()
     {
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
     }
 
     // : Assign

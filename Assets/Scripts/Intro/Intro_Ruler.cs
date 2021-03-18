@@ -16,7 +16,7 @@ public class Intro_Ruler : Ruler
         this.UIChief.Init();
 
         // :: Init Complete
-        Dictator.Debug_Init(this.ToString());
+        Clerk.Log(Enum.eLog.INIT, this.ToString());
 
         // :: Start Scenario
         this.ScenarioStart();
@@ -32,7 +32,7 @@ public class Intro_Ruler : Ruler
     protected override void ScenarioEnd()
     {
         this.UIChief.FadeOut_Dim(() => {
-            Dictator.LoadScene(Enum.eScene.TITLE);
+            this.Minister.LoadScene(Enum.eScene.TITLE);
         });
     }
 }

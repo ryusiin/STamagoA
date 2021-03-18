@@ -5,16 +5,16 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 
-public class INFOController_Player
+public class INFO_PLAYEREngineer : Engineer
 {
     // : Constructor
-    public INFOController_Player() { }
+    public INFO_PLAYEREngineer() { this.Init(); }
 
     // : Status
     private Info_Player infoPlayer;
 
     // : Init
-    public void Init()
+    protected override void Init()
     {
         // :: Load Data
         string json = this.LoadFile();
@@ -68,18 +68,19 @@ public class INFOController_Player
         this.infoPlayer = new Info_Player();
 
         // :: Init
-        if (this.infoPlayer.guid == "" || this.infoPlayer.guid == null)
-            this.SetGUID();
-        if (this.infoPlayer.nickname == "" || this.infoPlayer.nickname == null)
-            this.SetNickname("Amy");
-        if (this.infoPlayer.start_date == "" || this.infoPlayer.start_date == null)
-            this.SetDate_Start(new DateTime(0));
-        if (this.infoPlayer.last_date == "" || this.infoPlayer.last_date == null)
-            this.SetDate_Last(new DateTime(0));
+        this.SetGUID();
+        this.SetNickname("No Name");
+        DateTime timeCurrent = this.Minister.DATASecretary.GetTime_Current();
+        this.SetDate_Start(timeCurrent);
+        this.SetDate_Last(timeCurrent);
 
+        // :: Save
+        this.Save();
+
+        // :: Callback
         return JsonConvert.SerializeObject(this.infoPlayer);
     }
-    public void SetGUID()
+    private void SetGUID()
     {
         this.infoPlayer.guid = Guid.NewGuid().ToString();
         this.Save();
@@ -89,29 +90,13 @@ public class INFOController_Player
         this.infoPlayer.nickname = nickname;
         this.Save();
     }
-    public System.Action Please_SetDate_Start;
     public void SetDate_Start(DateTime startDate)
     {
-        // :: Null
-        if (startDate == new DateTime(0))
-        {
-            this.Please_SetDate_Start();
-            return;
-        }
-
         this.infoPlayer.start_date = startDate.ToString();
         this.Save();
     }
-    public System.Action Please_SetDate_Last;
     public void SetDate_Last(DateTime lastDate)
     {
-        // :: Null
-        if (lastDate == new DateTime(0))
-        {
-            this.Please_SetDate_Last();
-            return;
-        }
-
         this.infoPlayer.last_date = lastDate.ToString();
         this.Save();
     }

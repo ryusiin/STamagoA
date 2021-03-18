@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IObserverForChangeStatus
+public interface IObserver_Animation
 {
-    void UpdateStatus();
+    void EndAnimation();
 }

@@ -4,23 +4,17 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 
-public class INFOController_Zombie
+public class INFO_ZOMBIEEngineer : Engineer
 {
     // : Constructor
-    public INFOController_Zombie() { this.Init(); }
-
-    // : Controller
-    private DATAController_Zombie DATAController;
+    public INFO_ZOMBIEEngineer() { this.Init(); }
 
     // : Status
     private Info_Zombie infoZombie_Load;
 
     // : Init
-    private void Init()
+    protected override void Init()
     {
-        // :: Controller
-        this.DATAController = new DATAController_Zombie();
-
         // :: Load Data
         string json = this.LoadFile();
         if (json == null)
@@ -40,7 +34,8 @@ public class INFOController_Zombie
     public Class_Zombie GetZombie_Current()
     {
         Enum.eZombie eZombie = this.infoZombie_Load.type;
-        Data_Zombie dataZombie = DATAController.DictZombie[eZombie];
+        DATAZombie dataZombie 
+            = this.Minister.DATASecretary.GetData_Zombie(eZombie);
         Class_Zombie curZombie = new Class_Zombie(dataZombie);
         curZombie.ChangeInfo(this.infoZombie_Load);
 
@@ -74,8 +69,15 @@ public class INFOController_Zombie
     private string SetInit()
     {
         // :: Make
-        Data_Zombie dataZombie = DATAController.DictZombie[Enum.eZombie.EMMA];
+        Enum.eZombie baseZombie = (Enum.eZombie)1;
+        DATAZombie dataZombie 
+            = this.Minister.DATASecretary.GetData_Zombie(baseZombie);
         Class_Zombie newZombie = new Class_Zombie(dataZombie);
+
+        // :: Init
+        newZombie.Init(this.Minister.DATASecretary.GetTime_Current());
+
+        // :: Set
         this.infoZombie_Load = newZombie.Info;
 
         // :: Save
