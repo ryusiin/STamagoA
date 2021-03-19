@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Dictator : MonoBehaviour
 {
-    // : Save
-    public static Dictionary<int, string> dictLogs;
-
     // : 0 Awake
     private void Awake()
     {
@@ -30,37 +27,13 @@ public class Dictator : MonoBehaviour
             Object.Destroy(dictatorFound.gameObject);
     }
 
-    // : Minister
-    private static Minister Minister;
-
     // : Init
     private void Init()
     {
-        // :: Use
-        dictLogs = new Dictionary<int, string>();
-
-        // :: Log
-        Clerk.AppStatus();
-
-        // :: Minister
-        Minister = this.gameObject.AddComponent<Minister>();
-        Minister.Init();
-
-        // :: Complete
-        Clerk.Log(Enum.eLog.INIT, this.ToString());
-
-        // :: Load
-        Minister.LoadScene(Enum.eScene.INTRO);
     }
 
     // : Censor
     public static void Censor()
     {
-        // :: Find
-        Dictator dictator = GameObject.FindObjectOfType<Dictator>();
-
-        // :: Load Dictator
-        if (dictator == null)
-            Loader.LoadDictator();
     }
 }
