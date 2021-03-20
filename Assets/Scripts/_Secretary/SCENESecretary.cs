@@ -26,18 +26,22 @@ public class SCENESecretary : Secretary
             case Enum.eScene.DICTATOR:
                 break;
             case Enum.eScene.INTRO:
-                Debug.LogWarning(":: Intro Ruler를 초기화 해야함");
+                this.InitRuler<Intro_Ruler>();
                 break;
             case Enum.eScene.TITLE:
-                Debug.LogWarning(":: Title Ruler를 초기화 해야함");
+                this.InitRuler<Title_Ruler>();
                 break;
             case Enum.eScene.PRO_LOGOS:
-                Debug.LogWarning(":: ProLogos Ruler를 초기화 해야함");
+                this.InitRuler<ProLogos_Ruler>();
                 break;
             case Enum.eScene.IN_KINDER:
                 Debug.LogWarning(":: InKinder Ruler를 초기화 해야함");
                 break;
         }
     }
-    private void InitRuler<T>() { }
+    private void InitRuler<T>() where T : Ruler
+    {
+        T ruler = GameObject.FindObjectOfType<T>();
+        ruler.Init(this.minister);
+    }
 }

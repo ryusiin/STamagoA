@@ -11,14 +11,15 @@ public class Intro_Ruler : Ruler
         this.UIChief = GameObject.FindObjectOfType<Intro_UIChief>();
         this.UIChief.Init();
     }
-    protected override void InitStatus()
-    {
-
-    }
+    protected override void InitStatus() { }
+    protected override void InitButtons() { }
 
     // : Start
     protected override void StartRuler()
     {
-
+        this.UIChief.FadeDim(Enum.eFade.IN,
+            () => { this.UIChief.FadeDim(Enum.eFade.OUT,
+                () => { this.minister
+                    .SCENESecretary.LoadScene(Enum.eScene.TITLE); }); });
     }
 }

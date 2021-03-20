@@ -19,20 +19,27 @@ public abstract class Ruler : MonoBehaviour
     }
 
     // : Init
+    // >> Minister
     protected Minister minister { get; private set; }
     public void Init(Minister Minister)
     {
+        // :: Minister
         this.minister = Minister;
 
         // :: Init
         this.InitChief();
         this.InitStatus();
+        this.InitButtons();
 
         // :: Complete
+        Clerk.Log_InitComplete(this.ToString());
+
+        // :: DO Next Frame
         this.Do_NextFrame(this.StartRuler);
     }
     protected abstract void InitChief();
     protected abstract void InitStatus();
+    protected abstract void InitButtons();
 
     // : Do
     protected void Do_NextFrame(System.Action action)

@@ -8,4 +8,10 @@
         PRO_LOGOS = 3,
         IN_KINDER = 4
     }
+
+    public enum eFade
+    {
+        IN = 0,
+        OUT = 1 
+    }
 }

@@ -233,12 +233,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 103414823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3bd2083a3099843bd9e1943fdfef87, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ef90c20028746e46a5395d4b68c759c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEXT_TouchToStart: {fileID: 1323854210}
   IMAGE_Dim: {fileID: 2100626449}
-  BUTTON_GoTo_InKinder: {fileID: 2027074760}
+  TEXT_TouchToStart: {fileID: 1323854210}
+  BUTTON_GoToInKinder: {fileID: 2027074760}
 --- !u!1 &208869608
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,9 +340,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 473140413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bb2bfce909c7ec48af7b8cb81f8fa0e, type: 3}
+  m_Script: {fileID: 11500000, guid: f5521df9104d2fd468d8641a3c2a14d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTest: 0
 --- !u!4 &473140415
 Transform:
   m_ObjectHideFlags: 0
@@ -758,7 +759,7 @@ GameObject:
   - component: {fileID: 2027074761}
   - component: {fileID: 2027074760}
   m_Layer: 0
-  m_Name: Button_GoTo_InKinder
+  m_Name: Button_GoToInKinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -880,7 +881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2100626448
 RectTransform:
   m_ObjectHideFlags: 0
