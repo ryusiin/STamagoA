@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Title.unity
     guid: 96eee0ae0309a1645be139af6c2a5690
   - enabled: 1
+    path: Assets/Scenes/ProLogos.unity
+    guid: 54b92d7f931287547b348d3c14789f05
+  - enabled: 1
     path: Assets/Scenes/InKinder.unity
     guid: 7fa577e0993edb5459e6fb3f24252f6a
   m_configObjects: {}

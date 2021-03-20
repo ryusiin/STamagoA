@@ -28,12 +28,19 @@ public class Dictator : MonoBehaviour
     }
 
     // : Init
+    // >> Minister
+    private static Minister Minister;
     private void Init()
     {
+        Minister = this.gameObject.AddComponent<Minister>();
+        Minister.Init();
     }
 
     // : Censor
     public static void Censor()
     {
+        Dictator foundDictator = GameObject.FindObjectOfType<Dictator>();
+        if(foundDictator == null)
+            SCENESecretary.LoadDictator();
     }
 }

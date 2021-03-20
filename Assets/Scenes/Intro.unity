@@ -235,8 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dbb5e97c67b3484d8cf685fc882bdc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IMAGE_Logo: {fileID: 1316371773}
-  IMAGE_Dim: {fileID: 845228871}
 --- !u!1 &403204633
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e0819073e512444835bf73100f0c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTest: 0
 --- !u!1 &519776320
 GameObject:
   m_ObjectHideFlags: 0
