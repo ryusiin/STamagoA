@@ -10,4 +10,10 @@ public class Clerk
         string log = string.Format(":: {0} Init Complete", scriptName);
         Debug.Log(log);
     }
+
+    // : Warn
+    public static void Warn(string log)
+    {
+        Debug.LogWarning(":: " + log);
+    }
 }

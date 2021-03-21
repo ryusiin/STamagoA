@@ -5,22 +5,43 @@ using UnityEngine;
 public class ProLogos_Ruler : Ruler
 {
     // : Init
+    // >> Chief
+    private ProLogos_UIChief UIChief;
     protected override void InitChief()
     {
-        throw new System.NotImplementedException();
+        this.UIChief = GameObject.FindObjectOfType<ProLogos_UIChief>();
+        this.UIChief.Init();
     }
-    protected override void InitStatus()
-    {
-        throw new System.NotImplementedException();
-    }
+    protected override void InitStatus() { }
     protected override void InitButtons()
     {
-        throw new System.NotImplementedException();
+        this.UIChief.AddButtonScenario_Previous(
+            this.ButtonScenario_Previous);
+        this.UIChief.AddButtonScenario_Next(
+            this.ButtonScenario_Next);
+    }
+
+    // : Button Scenario
+    private void ButtonScenario_Previous()
+    {
+        Clerk.Warn("잠시 동안 버튼 클릭 안되게");
+        this.UIChief.SlideStory_Previous();
+        Clerk.Warn("Previous 및 Next 가능한 지를 확인");
+    }
+    private void ButtonScenario_Next()
+    {
+        Clerk.Warn("잠시 동안 버튼 클릭 안되게");
+        this.UIChief.SlideStory_Next();
+        Clerk.Warn("Previous 및 Next 가능한 지를 확인");
     }
 
     // : Start
     protected override void StartRuler()
     {
-        throw new System.NotImplementedException();
+        Clerk.Warn("Previous 및 Next 가능한 지를 확인");
+        Debug.LogWarning(":: Slide 자동 구현");
+
+        // :: Fade
+        this.UIChief.FadeDim(Enum.eFade.IN);
     }
 }
