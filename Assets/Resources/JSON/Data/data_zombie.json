@@ -1,15 +1,20 @@
 [
-   {
-      "id":1,
-      "name":"Emma",
-      "model_type":1,
-      "disposition_type":1,
-      "deadline_minute":10,
-      "required_training_point":10,
-      "max_calm_down":10,
-      "favourite_food":1,
-      "release_tp":600,
-      "min_factory_tp":0,
-      "max_factory_tp":1
-   }
+  {
+    "id": 1,
+    "name_id": 1,
+    "model_type": 1,
+    "deadline_second": 30
+  },
+  {
+    "id": 2,
+    "name_id": 2,
+    "model_type": 2,
+    "deadline_second": 45
+  },
+  {
+    "id": 3,
+    "name_id": 3,
+    "model_type": 3,
+    "deadline_second": 60
+  }
 ]

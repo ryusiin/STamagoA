@@ -35,7 +35,7 @@ public class SCENESecretary : Secretary
                 this.InitRuler<ProLogos_Ruler>();
                 break;
             case Enum.eScene.IN_KINDER:
-                Debug.LogWarning(":: InKinder Ruler를 초기화 해야함");
+                this.InitRuler<InKinder_Ruler>();
                 break;
         }
     }

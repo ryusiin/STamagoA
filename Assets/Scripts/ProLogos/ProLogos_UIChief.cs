@@ -12,6 +12,8 @@ public class ProLogos_UIChief : UIChief
     private Button BUTTON_Previous;
     [SerializeField]
     private Button BUTTON_Next;
+    [SerializeField]
+    private Text TEXT_Next;
 
     // : Init
     // >> Machine
@@ -44,5 +46,46 @@ public class ProLogos_UIChief : UIChief
     {
         this.SLIDEMachine.SlideNext(
             this.FIELD_Story, GAP_FIELD_STORY);
+    }
+
+    // : Update
+    // >> Status : Const
+    const string WORD_NEXT = "NEXT";
+    const string WORD_GO_TO_IN_KINDER = "START";
+    public void UpdateButtons()
+    {
+        // :: Get
+        int curSlide = this.Get_CurrentStorySlideNumber();
+
+        // :: Set
+        this.TEXT_Next.text = WORD_NEXT;
+
+        // :: Check
+        this.CanButton_All(true);
+        if (curSlide <= 1)
+        {
+            this.BUTTON_Previous.interactable = false;
+        }
+        else if (this.Get_IsLastStorySlide())
+            this.TEXT_Next.text = WORD_GO_TO_IN_KINDER;
+    }
+
+    // : Can
+    public void CanButton_All(bool check)
+    {
+        this.BUTTON_Previous.interactable = check;
+        this.BUTTON_Next.interactable = check;
+    }
+
+    // : Get
+    private int Get_CurrentStorySlideNumber()
+    {
+        return this.SLIDEMachine.Get_CurrentSlideNumber(
+            this.FIELD_Story, GAP_FIELD_STORY);
+    }
+    public bool Get_IsLastStorySlide()
+    {
+        int curSlide = this.Get_CurrentStorySlideNumber();
+        return curSlide >= this.FIELD_Story.childCount;
     }
 }

@@ -14,4 +14,19 @@
         IN = 0,
         OUT = 1 
     }
+
+    public enum eZombie
+    {
+        EMMA = 1,
+        JEONG = 2,
+        ING_WEN = 3
+    }
+
+    public enum eStatus
+    {
+        WAIT,
+        CURRENT,
+        RELEASE_WAIT,
+        RELEASE
+    }
 }

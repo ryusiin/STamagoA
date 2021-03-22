@@ -44,11 +44,20 @@ public abstract class Ruler : MonoBehaviour
     // : Do
     protected void Do_NextFrame(System.Action action)
     {
-        this.StartCoroutine(this.Do_NextFrameImplement(action));
+        this.StartCoroutine(this.Do_NextFrame_Impl(action));
     }
-    private IEnumerator Do_NextFrameImplement(System.Action action)
+    private IEnumerator Do_NextFrame_Impl(System.Action action)
     {
         yield return null;
+        action();
+    }
+    protected void Do_NextSeconds(System.Action action, float seconds = 1f)
+    {
+        this.StartCoroutine(this.Do_NextSeconds_Impl(action, seconds));
+    }
+    private IEnumerator Do_NextSeconds_Impl(System.Action action, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
         action();
     }
 

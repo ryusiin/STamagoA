@@ -5,6 +5,17 @@ using UnityEngine;
 
 public class SLIDEMachine : MonoBehaviour
 {
+    // : Get
+    public int Get_CurrentSlideNumber(Transform field, int gap)
+    {
+        // :: Get
+        int xPos = (int)field.localPosition.x;
+        int curNum = (xPos / -gap) + 1;
+
+        // :: Send
+        return curNum;
+    }
+
     // : Slide
     // >> Status : Const
     const int SLIDE_SPEED = 64;

@@ -22,24 +22,42 @@ public class ProLogos_Ruler : Ruler
     }
 
     // : Button Scenario
+    // >> Status : Const
+    const float BUTTON_WAIT_TIME = 0.3f;
     private void ButtonScenario_Previous()
     {
-        Clerk.Warn("잠시 동안 버튼 클릭 안되게");
+        this.UIChief.CanButton_All(false);
         this.UIChief.SlideStory_Previous();
-        Clerk.Warn("Previous 및 Next 가능한 지를 확인");
+        this.Do_NextSeconds(this.UIChief.UpdateButtons, 
+            BUTTON_WAIT_TIME);
     }
     private void ButtonScenario_Next()
     {
-        Clerk.Warn("잠시 동안 버튼 클릭 안되게");
-        this.UIChief.SlideStory_Next();
-        Clerk.Warn("Previous 및 Next 가능한 지를 확인");
+        if (this.UIChief.Get_IsLastStorySlide())
+            this.Scenario_GoToInKinder();
+        else
+        {
+            this.UIChief.CanButton_All(false);
+            this.UIChief.SlideStory_Next();
+            this.Do_NextSeconds(this.UIChief.UpdateButtons,
+                BUTTON_WAIT_TIME);
+        }
+    }
+
+    // : Scenario
+    public void Scenario_GoToInKinder()
+    {
+        this.UIChief.FadeDim(Enum.eFade.OUT, () => {
+            this.minister.SCENESecretary
+            .LoadScene(Enum.eScene.IN_KINDER);
+        });
     }
 
     // : Start
     protected override void StartRuler()
     {
-        Clerk.Warn("Previous 및 Next 가능한 지를 확인");
-        Debug.LogWarning(":: Slide 자동 구현");
+        this.UIChief.UpdateButtons();
+        Debug.LogWarning("나중에 Slide 자동 구현 고려");
 
         // :: Fade
         this.UIChief.FadeDim(Enum.eFade.IN);
