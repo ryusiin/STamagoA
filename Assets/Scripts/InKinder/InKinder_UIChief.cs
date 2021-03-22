@@ -14,6 +14,8 @@ public class InKinder_UIChief : UIChief
     private Text TEXT_NoticeNewZombie;
     [SerializeField]
     private Slider SLIDER_Deadline;
+    [SerializeField]
+    private InKinder_UILeader_CalmDown UILeader_CalmDown;
     public override void Init()
     {
         this.FADEMachine = this.gameObject.AddComponent<FADEMachine>();
@@ -36,6 +38,10 @@ public class InKinder_UIChief : UIChief
     public void SetSlider_Deadline(int max)
     {
         this.SLIDER_Deadline.maxValue = max;
+    }
+    public void SetUI_CalmDown(int cur, int max)
+    {
+        this.UILeader_CalmDown.Set(cur, max);
     }
 
     // : Show

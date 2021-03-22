@@ -597,6 +597,7 @@ GameObject:
   - component: {fileID: 370484909}
   - component: {fileID: 370484911}
   - component: {fileID: 370484910}
+  - component: {fileID: 370484912}
   m_Layer: 0
   m_Name: Pack_CalmDown
   m_TagString: Untagged
@@ -663,6 +664,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370484908}
   m_CullTransparentMesh: 0
+--- !u!114 &370484912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370484908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9dced563ebd8c4a84806ee7e620045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IMAGE_CalmDown: {fileID: 1879269522}
+  TEXT_CalmDown: {fileID: 512267931}
+  SPRITE_Emoji_Happy: {fileID: 21300000, guid: 62e0cb18616264b499a91d7cb968a196, type: 3}
+  SPRITE_Emoji_Hate: {fileID: 21300000, guid: ecccbf5274b8be846ac4217bc4e38a40, type: 3}
+  SPRITE_Emoji_SOSO: {fileID: 21300000, guid: 0c16160601c5d66439d67a8dc9e3e2e4, type: 3}
+  SPRITE_Emoji_CRAZY: {fileID: 21300000, guid: 9b4673b34bee41444b8ff6c1e525f57c, type: 3}
 --- !u!1 &376841150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,7 +2636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1226024273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3030,6 +3049,8 @@ MonoBehaviour:
   IMAGE_Dim: {fileID: 1226024274}
   BUTTON_NoticeNewZombie: {fileID: 308541955}
   TEXT_NoticeNewZombie: {fileID: 1470076548}
+  SLIDER_Deadline: {fileID: 792232292}
+  UILeader_CalmDown: {fileID: 370484912}
 --- !u!1 &1394488438
 GameObject:
   m_ObjectHideFlags: 0

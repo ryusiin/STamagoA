@@ -42,6 +42,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
 
         // :: UI
         this.Scenario_InitUI();
+        this.Scenario_UpdateUI();
 
         // :: Fade
         this.UIChief.FadeDim(Enum.eFade.IN);
@@ -69,8 +70,14 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     }
     private void Scenario_UpdateUI()
     {
+        // :: Deadline
         this.UIChief.ChangeSlider_Deadline(
             this.curZombie.Get_CurDeadlineSecond());
+
+        // :: CalmDown
+        int curCalmDown = this.curZombie.Get_CurCalmDown();
+        int maxCalmDown = this.curZombie.Get_MaxCalmDown();
+        this.UIChief.SetUI_CalmDown(curCalmDown, maxCalmDown);
     }
 
     // :: Observer Pattern

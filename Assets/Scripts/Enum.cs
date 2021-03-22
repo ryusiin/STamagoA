@@ -29,4 +29,9 @@
         RELEASE_WAIT,
         RELEASE
     }
+    public enum eCondition
+    {
+        NORMAL,
+        CRAZY
+    }
 }

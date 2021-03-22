@@ -39,6 +39,8 @@ public class Minister : MonoBehaviour, IObserver_Time
         // :: Observe
         this.TIMESecretary.RegisterObserver(this);
     }
+    // >> Status : Const
+    const int CALM_DOWN_SUB_VALUE = -1;
     private void Scenario_EverySecondForCurrentZombie()
     {
         // :: Get
@@ -51,6 +53,8 @@ public class Minister : MonoBehaviour, IObserver_Time
         
         // :: Set
         this.ZOMBIESecretary.Zombie_Current.Add_CurDeadlineSecond();
+        this.ZOMBIESecretary.Zombie_Current
+            .Add_CurCalmDown(CALM_DOWN_SUB_VALUE);
     }
 
     // :: Observe

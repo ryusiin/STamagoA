@@ -3,18 +3,21 @@
     "id": 1,
     "name_id": 1,
     "model_type": 1,
-    "deadline_second": 30
+    "deadline_second": 30,
+    "max_calm_down": 10
   },
   {
     "id": 2,
     "name_id": 2,
     "model_type": 2,
-    "deadline_second": 45
+    "deadline_second": 45,
+    "max_calm_down": 20
   },
   {
     "id": 3,
     "name_id": 3,
     "model_type": 3,
-    "deadline_second": 60
+    "deadline_second": 60,
+    "max_calm_down": 40
   }
 ]
