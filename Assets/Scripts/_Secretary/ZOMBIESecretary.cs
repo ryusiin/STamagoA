@@ -6,7 +6,7 @@ public class ZOMBIESecretary : Secretary
 {
     // : Init
     // >> Status : Const
-    const int BASE_ZOMBIE = 2;
+    const int BASE_ZOMBIE = 1;
     // >> Status
     public CLASSZombie Zombie_Current { get; private set; }
     public override void Init(Minister Minister)

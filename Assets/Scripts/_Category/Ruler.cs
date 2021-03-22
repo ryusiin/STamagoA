@@ -32,7 +32,8 @@ public abstract class Ruler : MonoBehaviour
         this.InitButtons();
 
         // :: Complete
-        Clerk.Log_InitComplete(this.ToString());
+        Debug.Log(string.Format(":: {0} Init Complete", 
+            this.ToString()));
 
         // :: DO Next Frame
         this.Do_NextFrame(this.StartRuler);

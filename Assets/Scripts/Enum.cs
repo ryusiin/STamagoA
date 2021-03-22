@@ -34,4 +34,9 @@
         NORMAL,
         CRAZY
     }
+    public enum eComplete
+    {
+        SUCCESS,
+        FAIL
+    }
 }

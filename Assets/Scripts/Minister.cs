@@ -11,6 +11,7 @@ public class Minister : MonoBehaviour, IObserver_Time
     public DATASecretary DATASecretary { get; private set; }
     public ZOMBIESecretary ZOMBIESecretary { get; private set; }
     public TIMESecretary TIMESecretary { get; private set; }
+    public PLAYERSecretary PLAYERSecretary { get; private set; }
     public void Init() {
         // :: Secretary
         this.APPSecretary = this.InitSecretary<APPSecretary>();
@@ -18,6 +19,7 @@ public class Minister : MonoBehaviour, IObserver_Time
         this.DATASecretary = this.InitSecretary<DATASecretary>();
         this.ZOMBIESecretary = this.InitSecretary<ZOMBIESecretary>();
         this.TIMESecretary = this.InitSecretary<TIMESecretary>();
+        this.PLAYERSecretary = this.InitSecretary<PLAYERSecretary>();
 
         // :: Complete
         this.ScenarioStart();
