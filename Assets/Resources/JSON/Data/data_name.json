@@ -1,14 +1,17 @@
 [
-   {
-      "id":1,
-      "name":"Emma"
-   },
-   {
-      "id":2,
-      "name":"Jeong"
-   },
-   {
-      "id":3,
-      "name":"IngWen"
-   }
+  {
+    "id": 1,
+    "name": "Emma",
+    "name_kr": "¿¥¸¶"
+  },
+  {
+    "id": 2,
+    "name": "Jeong",
+    "name_kr": "Á¤"
+  },
+  {
+    "id": 3,
+    "name": "IngWen",
+    "name_kr": "À×À¢"
+  }
 ]

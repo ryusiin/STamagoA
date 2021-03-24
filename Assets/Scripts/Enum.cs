@@ -6,7 +6,8 @@
         INTRO = 1,
         TITLE = 2,
         PRO_LOGOS = 3,
-        IN_KINDER = 4
+        IN_KINDER = 4,
+        GOTCHA = 5
     }
 
     public enum eFade
@@ -19,10 +20,11 @@
     {
         EMMA = 1,
         JEONG = 2,
-        ING_WEN = 3
+        ING_WEN = 3,
+        END = 4
     }
 
-    public enum eStatus
+    public enum eZombieStatus
     {
         WAIT,
         CURRENT,
@@ -34,9 +36,9 @@
         NORMAL,
         CRAZY
     }
-    public enum eComplete
+    public enum eCompleteStatus
     {
-        SUCCESS,
-        FAIL
+        SUCCESS = 1,
+        FAIL = 0
     }
 }

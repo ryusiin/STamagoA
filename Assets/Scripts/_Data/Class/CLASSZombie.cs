@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CLASSZombie
 {
@@ -15,7 +16,7 @@ public class CLASSZombie
         this.Info = new INFOZombie();
 
         // :: Init
-        this.Change_ZombieStatus(Enum.eStatus.WAIT);
+        this.Change_ZombieStatus(Enum.eZombieStatus.WAIT);
         this.Change_ZombieCondition(Enum.eCondition.NORMAL);
         this.Info.cur_deadline_second = 0;
         this.Info.cur_calm_down = this.Data.max_calm_down;
@@ -29,7 +30,7 @@ public class CLASSZombie
 
         // :: Check
         if (this.Info.cur_deadline_second >= this.Data.deadline_second)
-            this.Change_ZombieStatus(Enum.eStatus.RELEASE_WAIT);
+            this.Change_ZombieStatus(Enum.eZombieStatus.RELEASE_WAIT);
     }
     public void Add_CurCalmDown(int second = 1)
     {
@@ -49,12 +50,22 @@ public class CLASSZombie
             this.Change_ZombieCondition(Enum.eCondition.NORMAL);
     }
 
+    // : Change
+    public void Change_ZombieStatus(Enum.eZombieStatus eStatus)
+    {
+        this.Info.eStatus = eStatus;
+    }
+    public void Change_ZombieCondition(Enum.eCondition eCondition)
+    {
+        this.Info.eCondition = eCondition;
+    }
+
     // : Get
     public Enum.eZombie Get_ModelType()
     {
         return this.Data.model_type;
     }
-    public Enum.eStatus Get_ZombieStatus()
+    public Enum.eZombieStatus Get_ZombieStatus()
     {
         return this.Info.eStatus;
     }
@@ -82,14 +93,32 @@ public class CLASSZombie
     {
         return this.Data.max_calm_down;
     }
-
-    // : Change
-    public void Change_ZombieStatus(Enum.eStatus eStatus)
+    public int Get_CompleteGold()
     {
-        this.Info.eStatus = eStatus;
+        if (this.Info.eComplete == Enum.eCompleteStatus.SUCCESS)
+            return this.Data.gold_success;
+        else
+            return this.Data.gold_fail;
     }
-    public void Change_ZombieCondition(Enum.eCondition eCondition)
+    public Enum.eCompleteStatus Get_CompleteStatus()
     {
-        this.Info.eCondition = eCondition;
+        return (Enum.eCompleteStatus)this.Info.eComplete;
+    }
+    public int Get_DescriptionZombieID()
+    {
+        return this.Data.description_id;
+    }
+
+    // : Set
+    public void Set_ReleaseDate(DateTime time)
+    {
+        this.Info.releaseDate = time;
+    }
+    public void Set_CompleteStatus(int trainingPoint)
+    {
+        if (trainingPoint > 0)
+            this.Info.eComplete = Enum.eCompleteStatus.SUCCESS;
+        else
+            this.Info.eComplete = Enum.eCompleteStatus.FAIL;
     }
 }

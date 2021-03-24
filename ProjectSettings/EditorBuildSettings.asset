@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InKinder.unity
     guid: 7fa577e0993edb5459e6fb3f24252f6a
+  - enabled: 1
+    path: Assets/Scenes/Gotcha.unity
+    guid: b4976c9094d7e2c4b9f710ba428635f5
   m_configObjects: {}

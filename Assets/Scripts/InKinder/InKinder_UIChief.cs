@@ -9,41 +9,30 @@ public class InKinder_UIChief : UIChief
     // >> Assign
     [Header("Private")]
     [SerializeField]
-    private Button BUTTON_NoticeNewZombie;
-    [SerializeField]
-    private Button BUTTON_NoticeReleaseZombie;
-    [SerializeField]
-    private Text TEXT_NoticeNewZombie;
-    [SerializeField]
     private Text TEXT_Gold;
     [SerializeField]
     private Slider SLIDER_Deadline;
     [SerializeField]
     private InKinder_UILeader_CalmDown UILeader_CalmDown;
     [SerializeField]
-    // >> Leader
-    private InKinder_UILeader_NoticeReleaseZombie 
-        NOTICELeader_ReleaseZombie;
+    private InKinder_UILeader_NewZombie UILeader_NewZombie;
+    [SerializeField]
+    private InKinder_UILeader_ReleaseZombie UILeader_ReleaseZombie;
     public override void Init()
     {
         // :: Use
         this.FADEMachine = this.gameObject.AddComponent<FADEMachine>();
-        this.NOTICELeader_ReleaseZombie =
-            this.BUTTON_NoticeReleaseZombie.gameObject
-            .GetComponent<InKinder_UILeader_NoticeReleaseZombie>();
     }
 
     // : Add Button Listener
     public void AddButtonListener_NoticeNewZombie(System.Action action)
     {
-        this.BUTTON_NoticeNewZombie.onClick
+        this.UILeader_NewZombie.GetComponent<Button>().onClick
             .AddListener(() => { action(); });
     }
-    public void AddButtonListener_NoticeReleaseZombie(
-        System.Action action)
+    public void AddButtonListener_Release(System.Action action)
     {
-        this.BUTTON_NoticeReleaseZombie.onClick
-            .AddListener(() => { action(); });
+        this.UILeader_ReleaseZombie.AddButtonListener_Release(action);
     }
 
     // : Change
@@ -68,19 +57,20 @@ public class InKinder_UIChief : UIChief
     }
 
     // : Show
-    public void ShowButton_NoticeNewZombie(bool check, string text = "")
+    public void ShowButton_NoticeNewZombie(bool check, Pack_NewZombie pack = null)
     {
-        if (text != "")
-            this.TEXT_NoticeNewZombie.text = text;
+        if (pack != null)
+            this.UILeader_NewZombie.Set(pack);
 
-        this.BUTTON_NoticeNewZombie.gameObject.SetActive(check);
+        this.UILeader_NewZombie.gameObject.SetActive(check);
     }
     public void ShowPack_NoticeReleaseZombie(bool check, 
         Pack_ReleaseZombie pack = null)
     {
-        if(pack != null)
-            this.NOTICELeader_ReleaseZombie.Set(pack);
+        if (pack != null)
+            this.UILeader_ReleaseZombie.Set(pack);
 
-        this.NOTICELeader_ReleaseZombie.gameObject.SetActive(check);
+        if (check)
+            this.UILeader_ReleaseZombie.DoAnimation();
     }
 }

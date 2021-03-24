@@ -7,7 +7,7 @@ public class TIMESecretary : Secretary, ISubject_Time
 {
     // : Init
     // >> Status
-    public DateTime curTime;
+    public DateTime Time_Current { get; private set; }
     // >> Observer
     private List<IObserver_Time> listObservers;
     public override void Init(Minister Minister)
@@ -18,7 +18,7 @@ public class TIMESecretary : Secretary, ISubject_Time
         this.listObservers = new List<IObserver_Time>();
 
         // :: Status
-        this.curTime = DateTime.Now;
+        this.Time_Current = DateTime.Now;
     }
 
     // : Update
@@ -26,8 +26,8 @@ public class TIMESecretary : Secretary, ISubject_Time
     private int curSecond = 0;
     private void Update()
     {
-        this.curTime = DateTime.Now;
-        if (this.curSecond != this.curTime.Second)
+        this.Time_Current = DateTime.Now;
+        if (this.curSecond != this.Time_Current.Second)
             this.Scenario_EverySeconds();
     }
 
@@ -35,7 +35,7 @@ public class TIMESecretary : Secretary, ISubject_Time
     private void Scenario_EverySeconds()
     {
         // :: Set
-        this.curSecond = this.curTime.Second;
+        this.curSecond = this.Time_Current.Second;
 
         // :: Do
         this.Notify_EverySecond();
@@ -64,11 +64,11 @@ public class TIMESecretary : Secretary, ISubject_Time
     public void Notify_EverySecond()
     {
         foreach (IObserver_Time observer in this.listObservers)
-            observer.UpdateSecond(this.curTime);
+            observer.UpdateSecond(this.Time_Current);
     }
     public void Notify_EveryMinute()
     {
         foreach (IObserver_Time observer in this.listObservers)
-            observer.UpdateMinute(this.curTime);
+            observer.UpdateMinute(this.Time_Current);
     }
 }

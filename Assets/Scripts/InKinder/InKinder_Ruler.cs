@@ -25,7 +25,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     {
         this.UIChief.AddButtonListener_NoticeNewZombie(
             this.ButtonScenario_NoticeNewZombie);
-        this.UIChief.AddButtonListener_NoticeReleaseZombie(
+        this.UIChief.AddButtonListener_Release(
             this.ButtonScenario_NoticeReleaseZombie);
     }
 
@@ -36,7 +36,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         this.GOChief.Set_ZombieModel(this.curZombie.Get_ModelType());
 
         // :: Check
-        if (this.curZombie.Get_ZombieStatus() == Enum.eStatus.WAIT)
+        if (this.curZombie.Get_ZombieStatus() == Enum.eZombieStatus.WAIT)
             this.Scenario_NewZombie();
 
         // :: Observe
@@ -54,12 +54,28 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     private void ButtonScenario_NoticeNewZombie()
     {
         this.UIChief.ShowButton_NoticeNewZombie(false);
-        this.curZombie.Change_ZombieStatus(Enum.eStatus.CURRENT);
+        this.curZombie.Change_ZombieStatus(Enum.eZombieStatus.CURRENT);
     }
     private void ButtonScenario_NoticeReleaseZombie()
     {
         this.UIChief.ShowPack_NoticeReleaseZombie(false);
-        Debug.LogWarning(">> 여기서 좀비 출하(골드 획득 등)");
+
+        // :: Zombie
+        this.curZombie.Set_ReleaseDate(
+            this.minister.TIMESecretary.Time_Current);
+        this.curZombie.Change_ZombieStatus(Enum.eZombieStatus.RELEASE);
+        this.minister.ZOMBIESecretary
+            .AddListZombie_Release(this.curZombie);
+
+        // :: Player
+        int gold = this.curZombie.Get_CompleteGold();
+        this.minister.PLAYERSecretary.AddGold(gold);
+
+        // :: Update
+        this.Scenario_UpdateUI();
+
+        // :: GoTo
+        this.Scenario_GoToGotcha();
     }
 
     // : Scenario
@@ -67,8 +83,12 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     {
         int nameID = this.curZombie.Get_ZombieNameID();
         string name = this.minister.DATASecretary.DictName[nameID].name;
+        int descriptionID = this.curZombie.Get_DescriptionZombieID();
+        string description = this.minister.DATASecretary
+            .DictDescription_Zombie[descriptionID].description;
 
-        this.UIChief.ShowButton_NoticeNewZombie(true, name);
+        this.UIChief.ShowButton_NoticeNewZombie(true, 
+            new Pack_NewZombie(name, description));
     }
     private void Scenario_InitUI()
     {
@@ -85,10 +105,11 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         int curCalmDown = this.curZombie.Get_CurCalmDown();
         int maxCalmDown = this.curZombie.Get_MaxCalmDown();
         this.UIChief.SetUI_CalmDown(curCalmDown, maxCalmDown);
+
+        // :: Gold
+        int curGold = this.minister.PLAYERSecretary.Gold_Current;
+        this.UIChief.SetText_Gold(curGold);
     }
-    // >> Status : Const
-    const string TEXT_SUCCESS = "Success!";
-    const string TEXT_FAIL = "Fail!";
     // >> Status
     private bool isNoticeRelease = false;
     private void Scenario_CheckRelease()
@@ -96,30 +117,52 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         // :: Check
         if (this.isNoticeRelease == true)
             return;
-        Enum.eStatus eStatus = this.curZombie.Get_ZombieStatus();
-        if (eStatus != Enum.eStatus.RELEASE_WAIT)
+        Enum.eZombieStatus eStatus = this.curZombie.Get_ZombieStatus();
+        if (eStatus != Enum.eZombieStatus.RELEASE_WAIT)
             return;
 
         // :: Set
         this.isNoticeRelease = true;
+        this.Scenario_NoticeRelease();
+    }
+    private void Scenario_NoticeRelease()
+    {
+        // :: Set
+        this.isEnd = true;
+
+        // :: Check
+        int trainingPoint = 1;
+        Debug.LogWarning("== Training Point로 성공 실패 판정");
+        this.curZombie.Set_CompleteStatus(trainingPoint);
 
         // :: Pack
+        Enum.eCompleteStatus eComplete = this.curZombie
+            .Get_CompleteStatus();
         int nameID = this.curZombie.Get_ZombieNameID();
         string name = this.minister.DATASecretary.DictName[nameID].name;
-        int curCalmDown = this.curZombie.Get_CurCalmDown();
-        string complete = curCalmDown > 0 ? TEXT_SUCCESS : TEXT_FAIL;
-        Debug.LogWarning(">> 여기서 성공, 실패에 따른 골드 확인해야 함");
-        int gold = 0;
+        int gold = this.curZombie.Get_CompleteGold();
         Pack_ReleaseZombie pack = new Pack_ReleaseZombie(
-            name, gold, complete);
+            name, gold, eComplete);
 
         // :: Show
         this.UIChief.ShowPack_NoticeReleaseZombie(true, pack);
     }
+    private void Scenario_GoToGotcha()
+    {
+        this.UIChief.FadeDim(Enum.eFade.OUT, () =>
+        {
+            this.minister.SCENESecretary.LoadScene(Enum.eScene.GOTCHA);
+        });
+    }
 
     // :: Observer Pattern
+    // >> Status
+    private bool isEnd = false;
     public void UpdateSecond(System.DateTime time)
     {
+        if (isEnd)
+            return;
+
         this.Scenario_UpdateUI();
         this.Scenario_CheckRelease();
     }

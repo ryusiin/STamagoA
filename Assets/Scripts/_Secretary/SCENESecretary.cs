@@ -37,6 +37,9 @@ public class SCENESecretary : Secretary
             case Enum.eScene.IN_KINDER:
                 this.InitRuler<InKinder_Ruler>();
                 break;
+            case Enum.eScene.GOTCHA:
+                this.InitRuler<Gotcha_Ruler>();
+                break;
         }
     }
     private void InitRuler<T>() where T : Ruler

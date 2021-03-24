@@ -3,21 +3,36 @@
     "id": 1,
     "name_id": 1,
     "model_type": 1,
+    "description_id": 1,
     "deadline_second": 30,
-    "max_calm_down": 10
+    "max_calm_down": 10,
+    "gold_success": 10,
+    "gold_fail": 1,
+    "description_succss_id": 1,
+    "description_fail_id": 2
   },
   {
     "id": 2,
     "name_id": 2,
     "model_type": 2,
+    "description_id": 2,
     "deadline_second": 45,
-    "max_calm_down": 20
+    "max_calm_down": 20,
+    "gold_success": 30,
+    "gold_fail": 5,
+    "description_succss_id": 3,
+    "description_fail_id": 4
   },
   {
     "id": 3,
     "name_id": 3,
     "model_type": 3,
+    "description_id": 3,
     "deadline_second": 60,
-    "max_calm_down": 40
+    "max_calm_down": 40,
+    "gold_success": 100,
+    "gold_fail": 10,
+    "description_succss_id": 5,
+    "description_fail_id": 6
   }
 ]

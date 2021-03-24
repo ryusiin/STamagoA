@@ -1,0 +1,32 @@
+[
+   {
+      "id":1,
+      "description":"Emma will stop even the same zombies for children.\nShe will be the orphanage's Zombie Guard.",
+      "description_kr":"엠마는 어린이들을 위해서라면 같은 좀비라도 막아낼 것입니다.\n그녀는 고아원의 경호 좀비가 될 것입니다."
+   },
+   {
+      "id":2,
+      "description":"We knew Emma's perception of children was wrong.\nShe will be a material to teach the dangers of zombies.",
+      "description_kr":"엠마의 어린이에 관한 인식이 잘못되었다는 것을 알았습니다.\n그녀는 좀비의 위험성을 가르치는 교재가 될 것입니다."
+   },
+   {
+      "id":3,
+      "description":"Jeong can receive instructions in front of camera.\nHe will work on a farm with CCTV installed.",
+      "description_kr":"정은 카메라 앞이라면 지시를 받을 수 있습니다.\n그는 CCTV가 설치된 농장에서 일할 것입니다."
+   },
+   {
+      "id":4,
+      "description":"Jung proved that there is an anxiety side even in front of the camera.\nHe will be the vigilante practice opponent.",
+      "description_kr":"정은 카메라 앞에서도 불안한 면이 있다는 것을 입증했습니다.\n그는 자경대의 실전 연습 상대가 될 것입니다."
+   },
+   {
+      "id":5,
+      "description":"IngWen knows something important.\nShe will work for the Summerfield investigation team.",
+      "description_kr":"잉웬은 무언가 알고 있습니다.\n그녀는 서머필드 조사단에서 일할 것입니다. "
+   },
+   {
+      "id":6,
+      "description":"IngWen knows something, but she cannot communicate.\nFirst of all, she will be imprisoned.",
+      "description_kr":"잉웬은 무언가 알고 있지만, 의사소통이 불가능합니다.\n그녀는 우선 감옥에 갇힐 것입니다."
+   }
+]

@@ -46,11 +46,11 @@ public class Minister : MonoBehaviour, IObserver_Time
     private void Scenario_EverySecondForCurrentZombie()
     {
         // :: Get
-        Enum.eStatus eStatus =
+        Enum.eZombieStatus eStatus =
             this.ZOMBIESecretary.Zombie_Current.Get_ZombieStatus();
 
         // :: EXIT
-        if (eStatus != Enum.eStatus.CURRENT)
+        if (eStatus != Enum.eZombieStatus.CURRENT)
             return;
         
         // :: Set
