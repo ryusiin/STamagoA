@@ -23,6 +23,18 @@ public class PLAYERSecretary : Secretary
     private int Get_SavedGold()
     {
         Debug.LogWarning("== 여기서 Save된 골드를 확인해 가져와야 함");
-        return 0;
+        return 1000;
+    }
+
+    // : Pay
+    public bool PayGold(int gold)
+    {
+        // :: EXIT
+        if (this.Gold_Current < gold)
+            return false;
+
+        // :: Sub
+        this.AddGold(-gold);
+        return true;
     }
 }

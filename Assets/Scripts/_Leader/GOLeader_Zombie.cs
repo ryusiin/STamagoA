@@ -18,6 +18,50 @@ public class GOLeader_Zombie : MonoBehaviour
         }
     }
 
+    // : Blink
+    // >> Assign
+    public GameObject ALERTCanvas;
+    public void Blink_Alert()
+    {
+        this.StartCoroutine(this.Blink_Alert_Impl());
+    }
+    private IEnumerator Blink_Alert_Impl()
+    {
+        this.ALERTCanvas.SetActive(true);
+        yield return new WaitForSeconds(0.05f);
+        this.ALERTCanvas.SetActive(false);
+        yield return new WaitForSeconds(0.05f);
+        this.ALERTCanvas.SetActive(true);
+        yield return new WaitForSeconds(0.05f);
+        this.ALERTCanvas.SetActive(false);
+        yield return new WaitForSeconds(0.05f);
+        this.ALERTCanvas.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        this.ALERTCanvas.SetActive(false);
+    }
+
+    // : Do
+    // >> Status : Const
+    const string TEXT_TRIG_EAT = "TRIG_Eat";
+    public void DoAnimation(Enum.eAnimation eAnimation)
+    {
+        Animator animator = this.GetComponent<Animator>();
+        switch(eAnimation)
+        {
+            case Enum.eAnimation.EAT:
+                int hash = Animator.StringToHash(TEXT_TRIG_EAT);
+                animator.SetTrigger(hash);
+                break;
+        }
+    }
+
+    // : Receive
+    public System.Action Callback_EndAnimation;
+    public void Receive_EndAnimation()
+    {
+        this.Callback_EndAnimation();
+    }
+
     // : Select
     public void Select_ZombieModel(Enum.eZombie eZombie)
     {

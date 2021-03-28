@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name_id": 4,
+    "calm_down": 10,
+    "price": 10,
+    "sprite_name": "risn_item_food_rawmeat"
+  },
+  {
+    "id": 2,
+    "name_id": 5,
+    "calm_down": 20,
+    "price": 100,
+    "sprite_name": "risn_item_food_cheese"
+  },
+  {
+    "id": 3,
+    "name_id": 6,
+    "calm_down": 40,
+    "price": 200,
+    "sprite_name": "risn_item_food_donut"
+  }
+]

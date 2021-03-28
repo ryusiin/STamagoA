@@ -108,6 +108,13 @@ public class CLASSZombie
     {
         return this.Data.description_id;
     }
+    public int Get_DescriptionCompleteID(Enum.eCompleteStatus eComplete)
+    {
+        if (eComplete == Enum.eCompleteStatus.SUCCESS)
+            return this.Data.description_succss_id;
+        else
+            return this.Data.description_fail_id;
+    }
 
     // : Set
     public void Set_ReleaseDate(DateTime time)

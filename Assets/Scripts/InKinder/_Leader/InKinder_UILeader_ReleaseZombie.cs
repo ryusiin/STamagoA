@@ -12,6 +12,8 @@ public class InKinder_UILeader_ReleaseZombie : MonoBehaviour
     [SerializeField]
     private Text TEXT_Gold;
     [SerializeField]
+    private Text TEXT_Description;
+    [SerializeField]
     private GameObject FIELD_CompleteSuccess;
     [SerializeField]
     private GameObject FIELD_CompleteFail;
@@ -26,6 +28,7 @@ public class InKinder_UILeader_ReleaseZombie : MonoBehaviour
         // :: Set
         this.TEXT_Name.text = pack.zombieName;
         this.TEXT_Gold.text = "+" + pack.earningGold;
+        this.TEXT_Description.text = pack.completeDescription;
 
         if (pack.eCompleteStatus == Enum.eCompleteStatus.SUCCESS)
             this.FIELD_CompleteSuccess.SetActive(true);

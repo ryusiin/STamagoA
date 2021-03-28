@@ -1,5 +1,31 @@
 ﻿public class Enum
 {
+    public enum eAnimation
+    {
+        IDLE,
+        EAT
+    }
+    public enum eCompleteStatus
+    {
+        SUCCESS = 1,
+        FAIL = 0
+    }
+    public enum eCondition
+    {
+        NORMAL,
+        CRAZY
+    }
+    public enum eFade
+    {
+        IN = 0,
+        OUT = 1
+    }
+    public enum eFood
+    {
+        RAW_MEAT = 1,
+        CHEESE = 2,
+        DONUT = 3
+    }
     public enum eScene
     {
         DICTATOR = 0,
@@ -9,13 +35,6 @@
         IN_KINDER = 4,
         GOTCHA = 5
     }
-
-    public enum eFade
-    {
-        IN = 0,
-        OUT = 1 
-    }
-
     public enum eZombie
     {
         EMMA = 1,
@@ -23,22 +42,11 @@
         ING_WEN = 3,
         END = 4
     }
-
     public enum eZombieStatus
     {
         WAIT,
         CURRENT,
         RELEASE_WAIT,
         RELEASE
-    }
-    public enum eCondition
-    {
-        NORMAL,
-        CRAZY
-    }
-    public enum eCompleteStatus
-    {
-        SUCCESS = 1,
-        FAIL = 0
     }
 }

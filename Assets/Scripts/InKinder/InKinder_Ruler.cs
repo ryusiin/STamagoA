@@ -23,10 +23,17 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     }
     protected override void InitButtons()
     {
+        // :: Status
+        this.UIChief.Init_FoodButtons(this.minister.DATASecretary.DictFood,
+            this.ButtonScenario_Foods);
+
+        // :: Scenario
         this.UIChief.AddButtonListener_NoticeNewZombie(
             this.ButtonScenario_NoticeNewZombie);
         this.UIChief.AddButtonListener_Release(
             this.ButtonScenario_NoticeReleaseZombie);
+        this.UIChief.AddButtonListener_Food(
+            this.ButtonScenario_Food);
     }
 
     // : Start
@@ -51,14 +58,60 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     }
 
     // : Button Scenario
+    private void ButtonScenario_Food()
+    {
+        bool check = this.UIChief.GetIsActive_FieldFood();
+        this.UIChief.ShowField_Food(!check);
+
+        // :: UI
+        if (check)
+            this.Scenario_UpdateUI();
+    }
+    private void ButtonScenario_Foods(Enum.eFood eFood)
+    {
+        // :: Get
+        DATAFood food = this.minister.DATASecretary.DictFood[(int)eFood];
+
+        // :: Pay
+        bool check = this.minister.PLAYERSecretary.PayGold(food.price);
+        if(check)
+        {
+            // :: UI
+            this.Scenario_UpdateUI();
+            this.UIChief.ShowField_Food(false);
+            this.UIChief.CanTouchButton_All(false);
+
+            // :: GO
+            this.GOChief.Show_Food(eFood);
+            this.GOChief.Blink_Alert();
+
+            // :: Animation
+            this.GOChief.Set_EndAnimation(() =>
+            {
+                // :: GO
+                this.GOChief.Hide_Food();
+
+                // :: Status
+                this.curZombie.Add_CurCalmDown(food.calm_down);
+
+                // :: UI
+                this.UIChief.CanTouchButton_All(true);
+                this.Scenario_UpdateUI();
+            });
+            this.Do_NextSeconds(() =>
+            {
+                this.GOChief.DoAnimation_Zombie(Enum.eAnimation.EAT);
+            }, 0.5f);
+        }
+    }
     private void ButtonScenario_NoticeNewZombie()
     {
-        this.UIChief.ShowButton_NoticeNewZombie(false);
+        this.UIChief.ShowField_NoticeNewZombie(false);
         this.curZombie.Change_ZombieStatus(Enum.eZombieStatus.CURRENT);
     }
     private void ButtonScenario_NoticeReleaseZombie()
     {
-        this.UIChief.ShowPack_NoticeReleaseZombie(false);
+        this.UIChief.ShowField_NoticeReleaseZombie(false);
 
         // :: Zombie
         this.curZombie.Set_ReleaseDate(
@@ -87,7 +140,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         string description = this.minister.DATASecretary
             .DictDescription_Zombie[descriptionID].description;
 
-        this.UIChief.ShowButton_NoticeNewZombie(true, 
+        this.UIChief.ShowField_NoticeNewZombie(true, 
             new Pack_NewZombie(name, description));
     }
     private void Scenario_InitUI()
@@ -109,6 +162,9 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         // :: Gold
         int curGold = this.minister.PLAYERSecretary.Gold_Current;
         this.UIChief.SetText_Gold(curGold);
+
+        // :: Foods
+        this.UIChief.UpdateButton_Foods(curGold);
     }
     // >> Status
     private bool isNoticeRelease = false;
@@ -136,16 +192,10 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         this.curZombie.Set_CompleteStatus(trainingPoint);
 
         // :: Pack
-        Enum.eCompleteStatus eComplete = this.curZombie
-            .Get_CompleteStatus();
-        int nameID = this.curZombie.Get_ZombieNameID();
-        string name = this.minister.DATASecretary.DictName[nameID].name;
-        int gold = this.curZombie.Get_CompleteGold();
-        Pack_ReleaseZombie pack = new Pack_ReleaseZombie(
-            name, gold, eComplete);
+        Pack_ReleaseZombie pack = this.Packing_ReleaseZombie();
 
         // :: Show
-        this.UIChief.ShowPack_NoticeReleaseZombie(true, pack);
+        this.UIChief.ShowField_NoticeReleaseZombie(true, pack);
     }
     private void Scenario_GoToGotcha()
     {
@@ -153,6 +203,28 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         {
             this.minister.SCENESecretary.LoadScene(Enum.eScene.GOTCHA);
         });
+    }
+
+    // : Packing
+    private Pack_ReleaseZombie Packing_ReleaseZombie()
+    {
+        // :: Packing
+        // >> Complete
+        Enum.eCompleteStatus eComplete = this.curZombie
+            .Get_CompleteStatus();
+        // >> Name
+        int nameID = this.curZombie.Get_ZombieNameID();
+        string name = this.minister.DATASecretary.DictName[nameID].name;
+        // >> Gold
+        int gold = this.curZombie.Get_CompleteGold();
+        // >> Description
+        int descriptionID = this.curZombie
+            .Get_DescriptionCompleteID(eComplete);
+        string description = this.minister.DATASecretary
+            .DictDescription_Complete[descriptionID].description;
+
+        return new Pack_ReleaseZombie(
+            name, gold, eComplete, description);
     }
 
     // :: Observer Pattern

@@ -51,4 +51,52 @@ public class FADEMachine : MonoBehaviour
         // :: Action
         action?.Invoke();
     }
+
+    // << Text
+    // : Fade
+    public void FadeIn(Text text, System.Action action = null)
+    {
+        this.StartCoroutine(this.FadeIn_Imp(text, action));
+    }
+    private IEnumerator FadeIn_Imp(Text text, System.Action action)
+    {
+        // :: Get
+        text.gameObject.SetActive(true);
+        Color baseColor = text.color;
+        
+        // :: Loop
+        for(float opacity = 1f; 0 <= opacity; opacity -= Time.deltaTime)
+        {
+            text.color =
+                new Color(baseColor.r, baseColor.g, baseColor.b, opacity);
+
+            yield return null;
+        }
+        text.gameObject.SetActive(false);
+
+        // :: Action
+        action?.Invoke();
+    }
+    public void FadeOut(Text text, System.Action action = null)
+    {
+        this.StartCoroutine(this.FadeOut_Imp(text, action));
+    }
+    private IEnumerator FadeOut_Imp(Text text, System.Action action)
+    {
+        // :: Get
+        text.gameObject.SetActive(true);
+        Color baseColor = text.color;
+
+        // :: Loop
+        for (float opacity = 0f; opacity <= 1f; opacity += Time.deltaTime)
+        {
+            text.color =
+                new Color(baseColor.r, baseColor.g, baseColor.b, opacity);
+
+            yield return null;
+        }
+
+        // :: Action
+        action?.Invoke();
+    }
 }

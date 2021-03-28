@@ -14,6 +14,7 @@ public class DATASecretary : Secretary
         DictDescription_Zombie { get; private set; }
     public Dictionary<int, DATADescription_Complete>
         DictDescription_Complete { get; private set; }
+    public Dictionary<int, DATAFood> DictFood { get; private set; }
     public override void Init(Minister Minister)
     {
         base.Init(Minister);
@@ -32,34 +33,20 @@ public class DATASecretary : Secretary
 
     // Load
     // >> Status : Const
-    const string PATH_NAME = "JSON/Data/data_name";
-    const string PATH_ZOMBIE = "JSON/Data/data_zombie";
     const string PATH_DESCRIPTION_ZOMBIE 
         = "JSON/Data/data_description_zombie";
     const string PATH_DESCRIPTION_COMPLETE
         = "JSON/Data/data_description_complete";
+    const string PATH_FOOD = "JSON/Data/data_food";
+    const string PATH_NAME = "JSON/Data/data_name";
+    const string PATH_ZOMBIE = "JSON/Data/data_zombie";
     private void LoadData_All()
     {
-        this.LoadData_Name();
-        this.LoadData_Zombie();
         this.LoadData_Description_Zombie();
         this.LoadData_Description_Complete();
-    }
-    private void LoadData_Name()
-    {
-        string json = Resources
-            .Load<TextAsset>(PATH_NAME).text;
-        this.DictName = JsonConvert
-            .DeserializeObject<DATAName[]>(json)
-            .ToDictionary(ele => ele.id);
-    }
-    private void LoadData_Zombie()
-    {
-        string json = Resources
-            .Load<TextAsset>(PATH_ZOMBIE).text;
-        this.DictZombie = JsonConvert
-            .DeserializeObject<DATAZombie[]>(json)
-            .ToDictionary(ele => ele.id);
+        this.LoadData_Food();
+        this.LoadData_Name();
+        this.LoadData_Zombie();
     }
     private void LoadData_Description_Zombie()
     {
@@ -75,6 +62,30 @@ public class DATASecretary : Secretary
             .Load<TextAsset>(PATH_DESCRIPTION_COMPLETE).text;
         this.DictDescription_Complete = JsonConvert
             .DeserializeObject<DATADescription_Complete[]>(json)
+            .ToDictionary(ele => ele.id);
+    }
+    private void LoadData_Food()
+    {
+        string json = Resources
+            .Load<TextAsset>(PATH_FOOD).text;
+        this.DictFood = JsonConvert
+            .DeserializeObject<DATAFood[]>(json)
+            .ToDictionary(ele => ele.id);
+    }
+    private void LoadData_Name()
+    {
+        string json = Resources
+            .Load<TextAsset>(PATH_NAME).text;
+        this.DictName = JsonConvert
+            .DeserializeObject<DATAName[]>(json)
+            .ToDictionary(ele => ele.id);
+    }
+    private void LoadData_Zombie()
+    {
+        string json = Resources
+            .Load<TextAsset>(PATH_ZOMBIE).text;
+        this.DictZombie = JsonConvert
+            .DeserializeObject<DATAZombie[]>(json)
             .ToDictionary(ele => ele.id);
     }
 }

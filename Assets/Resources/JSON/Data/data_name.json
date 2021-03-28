@@ -13,5 +13,20 @@
     "id": 3,
     "name": "IngWen",
     "name_kr": "À×À¢"
+  },
+  {
+    "id": 4,
+    "name": "Raw Meat",
+    "name_kr": "»ý°í±â"
+  },
+  {
+    "id": 5,
+    "name": "Cheese",
+    "name_kr": "Ä¡Áî"
+  },
+  {
+    "id": 6,
+    "name": "Donut",
+    "name_kr": "µµ³Ó"
   }
 ]
