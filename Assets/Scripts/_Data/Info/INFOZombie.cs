@@ -10,5 +10,7 @@ public class INFOZombie
     public Enum.eCompleteStatus? eComplete = null;
     public int cur_deadline_second;
     public int cur_calm_down;
+    public int cur_training_point;
+    public int required_training_point;
     public DateTime? releaseDate = null;
 }

@@ -23,10 +23,18 @@ public class InKinder_UIChief : UIChief
     private InKinder_UILeader_Food UILeader_Food;
     [SerializeField]
     private InKinder_UILeader_Button UILeader_Button;
+    [SerializeField]
+    private InKinder_UILeader_OX UILeader_OX;
+    [SerializeField]
+    private InKinder_UILeader_Training UILeader_Training;
     public override void Init()
     {
         // :: Use
         this.FADEMachine = this.gameObject.AddComponent<FADEMachine>();
+
+        // :: Leader
+        this.UILeader_OX.Init();
+        this.UILeader_Training.Init();
     }
     public void Init_FoodButtons(Dictionary<int, DATAFood> DictFood,
         System.Action<Enum.eFood> DelegateButton_Foods)
@@ -36,6 +44,10 @@ public class InKinder_UIChief : UIChief
 
         // :: Init
         this.UILeader_Food.Init_FoodButtons(DictFood);
+    }
+    public void Init_OX(System.Action<int> DelegateEnd_OXGame)
+    {
+        this.UILeader_OX.DelegateEnd_OXGame = DelegateEnd_OXGame;
     }
 
     // : Add Button Listener
@@ -50,33 +62,34 @@ public class InKinder_UIChief : UIChief
     }
     public void AddButtonListener_Food(System.Action action)
     {
-        this.UILeader_Button.BUTTON_Food.onClick
-            .AddListener(() => { action(); });
+        this.UILeader_Button.AddButtonListener_Food(action);
+    }
+    public void AddButtonListener_Training(System.Action action)
+    {
+        this.UILeader_Button.AddButtonListener_Training(action);
     }
 
     // : Can
     public void CanTouchButton_All(bool check)
     {
-        this.UILeader_Button.BUTTON_Food.interactable = check;
-        this.UILeader_Button.BUTTON_Training.interactable = check;
-        this.UILeader_Button.BUTTON_Clean.interactable = check;
-        this.UILeader_Button.BUTTON_Factory.interactable = check;
-    }
-    public void CanTouchButton_Food(bool check)
-    {
-        this.UILeader_Button.BUTTON_Food.interactable = check;
+        this.UILeader_Button.CanTouchButton_All(check);
     }
 
-    // : Change
-    public void ChangeSlider_Deadline(int value)
+    // : Get
+    public bool GetIsActive_FieldFood()
     {
-        this.SLIDER_Deadline.value = value;
+        return this.UILeader_Food.GetIsActive();
     }
 
     // : Set
-    public void SetSlider_Deadline(int max)
+    public void SetSlider_Deadline(int cur, int max)
     {
         this.SLIDER_Deadline.maxValue = max;
+        this.SLIDER_Deadline.value = cur;
+    }
+    public void SetSlider_Training(CLASSZombie zombie)
+    {
+        this.UILeader_Training.SetSlider_Training(zombie);
     }
     public void SetUI_CalmDown(int cur, int max)
     {
@@ -86,12 +99,6 @@ public class InKinder_UIChief : UIChief
     {
         string goldText = string.Format("{0:#,0}", gold);
         this.TEXT_Gold.text = goldText;
-    }
-
-    // : Get
-    public bool GetIsActive_FieldFood()
-    {
-        return this.UILeader_Food.GetIsActive();
     }
 
     // : Show
@@ -120,7 +127,21 @@ public class InKinder_UIChief : UIChief
         if (check)
         {
             this.CanTouchButton_All(false);
-            this.CanTouchButton_Food(true);
+            this.UILeader_Button.CanTouchButton(Enum.eButton.FOOD, true);
+        }
+        else
+            this.CanTouchButton_All(true);
+    }
+    public void ShowField_OX(bool check)
+    {
+        // :: Show
+        this.UILeader_OX.Init_Status();
+        this.UILeader_OX.gameObject.SetActive(check);
+
+        // :: Button
+        if (check)
+        {
+            this.UILeader_Button.CanTouchButton(Enum.eButton.TRAINING, true);
         }
         else
             this.CanTouchButton_All(true);

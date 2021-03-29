@@ -43,6 +43,7 @@ public class Minister : MonoBehaviour, IObserver_Time
     }
     // >> Status : Const
     const int CALM_DOWN_SUB_VALUE = -1;
+    const int TRAINIG_POINT_SUB_VALUE = -1;
     private void Scenario_EverySecondForCurrentZombie()
     {
         // :: Get
@@ -57,6 +58,10 @@ public class Minister : MonoBehaviour, IObserver_Time
         this.ZOMBIESecretary.Zombie_Current.Add_CurDeadlineSecond();
         this.ZOMBIESecretary.Zombie_Current
             .Add_CurCalmDown(CALM_DOWN_SUB_VALUE);
+        if (this.ZOMBIESecretary.Zombie_Current.Get_ZombieCondition()
+            == Enum.eCondition.CRAZY)
+            this.ZOMBIESecretary.Zombie_Current
+                .Add_CurTrainingPoint(TRAINIG_POINT_SUB_VALUE);
     }
 
     // :: Observe

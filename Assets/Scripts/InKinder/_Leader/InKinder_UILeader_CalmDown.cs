@@ -39,11 +39,11 @@ public class InKinder_UILeader_CalmDown : MonoBehaviour
         {
 
             if (count == 0)
-                this.SetColor(RED);
+                this.SetColor(Const.RGBA_RED);
             else if (count == 1)
-                this.SetColor(YELLOW);
+                this.SetColor(Const.RGBA_YELLOW);
             else if (count == 2)
-                this.SetColor(GREEN);
+                this.SetColor(Const.RGBA_GREEN);
 
             count += 1;
 
@@ -74,11 +74,11 @@ public class InKinder_UILeader_CalmDown : MonoBehaviour
     private void SetStatus(int percent)
     {
         if (percent >= 70)
-            this.SetEmoji(this.SPRITE_Emoji_Happy, GREEN);
+            this.SetEmoji(this.SPRITE_Emoji_Happy, Const.RGBA_GREEN);
         else if (percent >= 30)
-            this.SetEmoji(this.SPRITE_Emoji_SOSO, YELLOW);
+            this.SetEmoji(this.SPRITE_Emoji_SOSO, Const.RGBA_YELLOW);
         else if (percent > 0)
-            this.SetEmoji(this.SPRITE_Emoji_Hate, RED);
+            this.SetEmoji(this.SPRITE_Emoji_Hate, Const.RGBA_RED);
         else
             this.SetEmoji(this.SPRITE_Emoji_CRAZY, CRAZY_COLOR);
     }
@@ -99,10 +99,7 @@ public class InKinder_UILeader_CalmDown : MonoBehaviour
         }
     }
     // >> Status
-    const string RED = "#FF3232FF";
-    const string YELLOW = "#FFE45EFF";
-    const string GREEN = "#329932FF";
-    const string CRAZY_COLOR = "Crazy";
+    private const string CRAZY_COLOR = "Crazy";
     private void SetColor(string colorRGBA)
     {
         if(ColorUtility.TryParseHtmlString(colorRGBA, out Color color))

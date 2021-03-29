@@ -13,6 +13,7 @@ public class InKinder_GOChief : GOChief
     private InKinder_GOLeader_Food FOODLeader;
     public override void Init()
     {
+        this.ZOMBIELeader.Init();
     }
 
     // : Blink
@@ -41,6 +42,10 @@ public class InKinder_GOChief : GOChief
     public void Set_EndAnimation(System.Action action)
     {
         this.ZOMBIELeader.Callback_EndAnimation = action;
+    }
+    public void Set_EndEat(System.Action action)
+    {
+        this.ZOMBIELeader.Callback_EndEat = action;
     }
 
     // : Show

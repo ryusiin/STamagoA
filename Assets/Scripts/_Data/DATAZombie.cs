@@ -6,6 +6,7 @@
     public int description_id;
     public int deadline_second;
     public int max_calm_down;
+    public int max_training_point;
     public int gold_success;
     public int gold_fail;
     public int description_succss_id;

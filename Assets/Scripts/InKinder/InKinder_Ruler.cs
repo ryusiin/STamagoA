@@ -26,6 +26,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         // :: Status
         this.UIChief.Init_FoodButtons(this.minister.DATASecretary.DictFood,
             this.ButtonScenario_Foods);
+        this.UIChief.Init_OX(this.Scenario_EndOXGame);
 
         // :: Scenario
         this.UIChief.AddButtonListener_NoticeNewZombie(
@@ -34,6 +35,8 @@ public class InKinder_Ruler : Ruler, IObserver_Time
             this.ButtonScenario_NoticeReleaseZombie);
         this.UIChief.AddButtonListener_Food(
             this.ButtonScenario_Food);
+        this.UIChief.AddButtonListener_Training(
+            this.ButtonScenario_Training);
     }
 
     // : Start
@@ -51,7 +54,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
 
         // :: UI
         this.Scenario_InitUI();
-        this.Scenario_UpdateUI();
+        this.Scenario_Update();
 
         // :: Fade
         this.UIChief.FadeDim(Enum.eFade.IN);
@@ -65,7 +68,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
 
         // :: UI
         if (check)
-            this.Scenario_UpdateUI();
+            this.Scenario_Update();
     }
     private void ButtonScenario_Foods(Enum.eFood eFood)
     {
@@ -77,7 +80,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         if(check)
         {
             // :: UI
-            this.Scenario_UpdateUI();
+            this.Scenario_Update();
             this.UIChief.ShowField_Food(false);
             this.UIChief.CanTouchButton_All(false);
 
@@ -86,17 +89,19 @@ public class InKinder_Ruler : Ruler, IObserver_Time
             this.GOChief.Blink_Alert();
 
             // :: Animation
-            this.GOChief.Set_EndAnimation(() =>
+            this.GOChief.Set_EndEat(() =>
             {
                 // :: GO
                 this.GOChief.Hide_Food();
 
                 // :: Status
                 this.curZombie.Add_CurCalmDown(food.calm_down);
-
+                this.Scenario_Update();
+            });
+            this.GOChief.Set_EndAnimation(() =>
+            {
                 // :: UI
                 this.UIChief.CanTouchButton_All(true);
-                this.Scenario_UpdateUI();
             });
             this.Do_NextSeconds(() =>
             {
@@ -125,13 +130,39 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         this.minister.PLAYERSecretary.AddGold(gold);
 
         // :: Update
-        this.Scenario_UpdateUI();
+        this.Scenario_Update();
 
         // :: GoTo
         this.Scenario_GoToGotcha();
     }
+    private void ButtonScenario_Training()
+    {
+        this.UIChief.ShowField_OX(true);
+    }
 
     // : Scenario
+    private void Scenario_EndOXGame(int score)
+    {
+        // :: UI
+        this.UIChief.ShowField_OX(false);
+
+        // :: Add
+        this.curZombie.Add_CurTrainingPoint(score);
+
+        // :: Update
+        this.Scenario_Update();
+    }
+    private void Scenario_InitUI()
+    {
+        this.UIChief.SetSlider_Deadline(
+            this.curZombie.Get_CurDeadlineSecond(),
+            this.curZombie.Get_DeadlineSecond());
+    }
+    private void Scenario_Update()
+    {
+        this.Scenario_UpdateUI();
+        this.Scenario_UpdateGO();
+    }
     private void Scenario_NewZombie()
     {
         int nameID = this.curZombie.Get_ZombieNameID();
@@ -140,19 +171,26 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         string description = this.minister.DATASecretary
             .DictDescription_Zombie[descriptionID].description;
 
-        this.UIChief.ShowField_NoticeNewZombie(true, 
+        this.UIChief.ShowField_NoticeNewZombie(true,
             new Pack_NewZombie(name, description));
     }
-    private void Scenario_InitUI()
+    private void Scenario_UpdateGO()
     {
-        this.UIChief.SetSlider_Deadline(
-            this.curZombie.Get_DeadlineSecond());
+        Enum.eCondition eCondition = this.curZombie.Get_ZombieCondition();
+        if (eCondition == Enum.eCondition.CRAZY)
+            this.GOChief.DoAnimation_Zombie(Enum.eAnimation.CRAZY);
+        else if (eCondition == Enum.eCondition.NORMAL)
+            this.GOChief.DoAnimation_Zombie(Enum.eAnimation.IDLE);
     }
     private void Scenario_UpdateUI()
     {
         // :: Deadline
-        this.UIChief.ChangeSlider_Deadline(
-            this.curZombie.Get_CurDeadlineSecond());
+        this.UIChief.SetSlider_Deadline(
+            this.curZombie.Get_CurDeadlineSecond(),
+            this.curZombie.Get_DeadlineSecond());
+
+        // :: Training
+        this.UIChief.SetSlider_Training(this.curZombie);
 
         // :: CalmDown
         int curCalmDown = this.curZombie.Get_CurCalmDown();
@@ -187,9 +225,8 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         this.isEnd = true;
 
         // :: Check
-        int trainingPoint = 1;
         Debug.LogWarning("== Training Point로 성공 실패 판정");
-        this.curZombie.Set_CompleteStatus(trainingPoint);
+        this.curZombie.Set_CompleteStatus();
 
         // :: Pack
         Pack_ReleaseZombie pack = this.Packing_ReleaseZombie();
@@ -235,7 +272,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
         if (isEnd)
             return;
 
-        this.Scenario_UpdateUI();
+        this.Scenario_Update();
         this.Scenario_CheckRelease();
     }
     public void UpdateMinute(System.DateTime time)

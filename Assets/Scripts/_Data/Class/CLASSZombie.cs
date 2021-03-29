@@ -20,6 +20,9 @@ public class CLASSZombie
         this.Change_ZombieCondition(Enum.eCondition.NORMAL);
         this.Info.cur_deadline_second = 0;
         this.Info.cur_calm_down = this.Data.max_calm_down;
+        this.Info.cur_training_point = 0;
+        this.Info.required_training_point = 
+            (int)((float)this.Data.max_training_point * 0.7f);
     }
 
     // : Add
@@ -49,6 +52,17 @@ public class CLASSZombie
         else
             this.Change_ZombieCondition(Enum.eCondition.NORMAL);
     }
+    public void Add_CurTrainingPoint(int add)
+    {
+        // :: Add
+        this.Info.cur_training_point += add;
+
+        // :: Adjust
+        if (this.Info.cur_training_point < 0)
+            this.Info.cur_training_point = 0;
+        if (this.Info.cur_training_point > this.Data.max_training_point)
+            this.Info.cur_training_point = this.Data.max_training_point;
+    }
 
     // : Change
     public void Change_ZombieStatus(Enum.eZombieStatus eStatus)
@@ -61,9 +75,59 @@ public class CLASSZombie
     }
 
     // : Get
+    public int Get_CompleteGold()
+    {
+        if (this.Info.eComplete == Enum.eCompleteStatus.SUCCESS)
+            return this.Data.gold_success;
+        else
+            return this.Data.gold_fail;
+    }
+    public Enum.eCompleteStatus Get_CompleteStatus()
+    {
+        return (Enum.eCompleteStatus)this.Info.eComplete;
+    }
+    public int Get_CurCalmDown()
+    {
+        return this.Info.cur_calm_down;
+    }
+    public int Get_CurDeadlineSecond()
+    {
+        return this.Info.cur_deadline_second;
+    }
+    public int Get_CurTrainingPoint()
+    {
+        return this.Info.cur_training_point;
+    }
+    public int Get_DeadlineSecond()
+    {
+        return this.Data.deadline_second;
+    }
+    public int Get_DescriptionZombieID()
+    {
+        return this.Data.description_id;
+    }
+    public int Get_DescriptionCompleteID(Enum.eCompleteStatus eComplete)
+    {
+        if (eComplete == Enum.eCompleteStatus.SUCCESS)
+            return this.Data.description_succss_id;
+        else
+            return this.Data.description_fail_id;
+    }
+    public int Get_MaxCalmDown()
+    {
+        return this.Data.max_calm_down;
+    }
+    public int Get_MaxTrainingPoint()
+    {
+        return this.Data.max_training_point;
+    }
     public Enum.eZombie Get_ModelType()
     {
         return this.Data.model_type;
+    }
+    public int Get_RequiredTrainingPoint()
+    {
+        return this.Info.required_training_point;
     }
     public Enum.eZombieStatus Get_ZombieStatus()
     {
@@ -77,53 +141,15 @@ public class CLASSZombie
     {
         return this.Data.name_id;
     }
-    public int Get_CurDeadlineSecond()
-    {
-        return this.Info.cur_deadline_second;
-    }
-    public int Get_DeadlineSecond()
-    {
-        return this.Data.deadline_second;
-    }
-    public int Get_CurCalmDown()
-    {
-        return this.Info.cur_calm_down;
-    }
-    public int Get_MaxCalmDown()
-    {
-        return this.Data.max_calm_down;
-    }
-    public int Get_CompleteGold()
-    {
-        if (this.Info.eComplete == Enum.eCompleteStatus.SUCCESS)
-            return this.Data.gold_success;
-        else
-            return this.Data.gold_fail;
-    }
-    public Enum.eCompleteStatus Get_CompleteStatus()
-    {
-        return (Enum.eCompleteStatus)this.Info.eComplete;
-    }
-    public int Get_DescriptionZombieID()
-    {
-        return this.Data.description_id;
-    }
-    public int Get_DescriptionCompleteID(Enum.eCompleteStatus eComplete)
-    {
-        if (eComplete == Enum.eCompleteStatus.SUCCESS)
-            return this.Data.description_succss_id;
-        else
-            return this.Data.description_fail_id;
-    }
 
     // : Set
     public void Set_ReleaseDate(DateTime time)
     {
         this.Info.releaseDate = time;
     }
-    public void Set_CompleteStatus(int trainingPoint)
+    public void Set_CompleteStatus()
     {
-        if (trainingPoint > 0)
+        if (this.Info.cur_training_point > this.Info.required_training_point)
             this.Info.eComplete = Enum.eCompleteStatus.SUCCESS;
         else
             this.Info.eComplete = Enum.eCompleteStatus.FAIL;

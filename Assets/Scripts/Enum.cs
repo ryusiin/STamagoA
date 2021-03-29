@@ -3,7 +3,15 @@
     public enum eAnimation
     {
         IDLE,
-        EAT
+        EAT,
+        CRAZY
+    }
+    public enum eButton
+    {
+        FOOD,
+        TRAINING,
+        CLEAN,
+        FACTORY
     }
     public enum eCompleteStatus
     {

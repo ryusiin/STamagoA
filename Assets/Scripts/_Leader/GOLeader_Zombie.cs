@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class GOLeader_Zombie : MonoBehaviour
 {
+    // : Init
+    // >> Status : Const
+    const string TEXT_TRIG_EAT = "TRIG_Eat";
+    const string TEXT_BOOL_CRAZY = "BOOL_Crazy";
+    // >> Status : Animation
+    private Animator isAnimator;
+    private int hash_TRIGEat;
+    private int hash_BOOLCrazy;
+    public void Init()
+    {
+        this.isAnimator = this.GetComponent<Animator>();
+        this.hash_BOOLCrazy = Animator.StringToHash(TEXT_BOOL_CRAZY);
+        this.hash_TRIGEat = Animator.StringToHash(TEXT_TRIG_EAT);
+    }
+
     // : Hide
     // >> Status : Const
     const string EXCEPT_CHILD = "Root";
@@ -41,16 +56,18 @@ public class GOLeader_Zombie : MonoBehaviour
     }
 
     // : Do
-    // >> Status : Const
-    const string TEXT_TRIG_EAT = "TRIG_Eat";
     public void DoAnimation(Enum.eAnimation eAnimation)
     {
-        Animator animator = this.GetComponent<Animator>();
         switch(eAnimation)
         {
             case Enum.eAnimation.EAT:
-                int hash = Animator.StringToHash(TEXT_TRIG_EAT);
-                animator.SetTrigger(hash);
+                isAnimator.SetTrigger(hash_TRIGEat);
+                break;
+            case Enum.eAnimation.CRAZY:
+                isAnimator.SetBool(hash_BOOLCrazy, true);
+                break;
+            case Enum.eAnimation.IDLE:
+                isAnimator.SetBool(hash_BOOLCrazy, false);
                 break;
         }
     }
@@ -60,6 +77,11 @@ public class GOLeader_Zombie : MonoBehaviour
     public void Receive_EndAnimation()
     {
         this.Callback_EndAnimation();
+    }
+    public System.Action Callback_EndEat;
+    public void Receive_EndEat()
+    {
+        this.Callback_EndEat();
     }
 
     // : Select

@@ -31,11 +31,11 @@ public class Gotcha_Ruler : Ruler
 
     // : Button Scenario
     // >> Status
-    const int START_ZOMBIE = 1;
-    const int END_ZOMBIE_PLUS = 4;
+    private const int START_ZOMBIE = 1;
+    private const int END_ZOMBIE_PLUS = 4;
     private void ButtonScenario_Gotcha()
     {
-        // :: Set
+        // :: UI
         this.UIChief.CanClickButton_Gotcha(false);
 
         // :: Get
@@ -71,10 +71,14 @@ public class Gotcha_Ruler : Ruler
         // :: Change
         this.minister.ZOMBIESecretary.ChangeZombie_Current(newZombie);
 
-        // :: Set
+        // :: Get
         CLASSZombie curZombie =
             this.minister.ZOMBIESecretary.Zombie_Current;
+
+        // :: Set
+        // >> GO
         this.GOChief.Set_ZombieModel(curZombie.Get_ModelType());
+        // >> UI
         int nameID = curZombie.Get_ZombieNameID();
         string name = this.minister.DATASecretary.DictName[nameID].name;
         this.UIChief.ShowUI_Name(false, name);
