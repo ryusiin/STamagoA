@@ -17,6 +17,13 @@ public class GOLeader_Zombie : MonoBehaviour
         this.isAnimator = this.GetComponent<Animator>();
         this.hash_BOOLCrazy = Animator.StringToHash(TEXT_BOOL_CRAZY);
         this.hash_TRIGEat = Animator.StringToHash(TEXT_TRIG_EAT);
+
+        // :: GO
+        this.InitGOPosition();
+    }
+    private void InitGOPosition()
+    {
+        this.ALERTCanvas.SetActive(false);
     }
 
     // : Hide

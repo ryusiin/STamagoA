@@ -137,7 +137,7 @@ public class InKinder_Ruler : Ruler, IObserver_Time
     }
     private void ButtonScenario_Training()
     {
-        this.UIChief.ShowField_OX(true);
+        this.UIChief.ShowField_OX(true, this.minister.DATASecretary.DictOX);
     }
 
     // : Scenario

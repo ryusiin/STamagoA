@@ -1,0 +1,62 @@
+[
+   {
+      "id":1,
+      "level":1,
+      "question":"Hello = 안녕",
+      "answer":"TRUE"
+   },
+   {
+      "id":2,
+      "level":1,
+      "question":"Bye = 안녕",
+      "answer":"TRUE"
+   },
+   {
+      "id":3,
+      "level":1,
+      "question":"Hello = 사과",
+      "answer":"FALSE"
+   },
+   {
+      "id":4,
+      "level":1,
+      "question":"Bye = 사과",
+      "answer":"FALSE"
+   },
+   {
+      "id":5,
+      "level":1,
+      "question":"안녕 = こんにちは",
+      "answer":"TRUE"
+   },
+   {
+      "id":6,
+      "level":1,
+      "question":"안녕 = さようなら",
+      "answer":"TRUE"
+   },
+   {
+      "id":7,
+      "level":1,
+      "question":"안녕 = りんご",
+      "answer":"FALSE"
+   },
+   {
+      "id":8,
+      "level":1,
+      "question":"사과 = りんご",
+      "answer":"TRUE"
+   },
+   {
+      "id":9,
+      "level":1,
+      "question":"사과 = こんにちは",
+      "answer":"FALSE"
+   },
+   {
+      "id":10,
+      "level":1,
+      "question":"사과 = さようなら",
+      "answer":"FALSE"
+   }
+]

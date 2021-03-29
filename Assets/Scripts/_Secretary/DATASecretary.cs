@@ -15,6 +15,7 @@ public class DATASecretary : Secretary
     public Dictionary<int, DATADescription_Complete>
         DictDescription_Complete { get; private set; }
     public Dictionary<int, DATAFood> DictFood { get; private set; }
+    public Dictionary<int, DATAOX> DictOX { get; private set; }
     public override void Init(Minister Minister)
     {
         base.Init(Minister);
@@ -26,6 +27,7 @@ public class DATASecretary : Secretary
             new Dictionary<int, DATADescription_Zombie>();
         this.DictDescription_Complete =
             new Dictionary<int, DATADescription_Complete>();
+        this.DictOX = new Dictionary<int, DATAOX>();
 
         // :: Load
         this.LoadData_All();
@@ -40,6 +42,7 @@ public class DATASecretary : Secretary
     const string PATH_FOOD = "JSON/Data/data_food";
     const string PATH_NAME = "JSON/Data/data_name";
     const string PATH_ZOMBIE = "JSON/Data/data_zombie";
+    const string PATH_OX = "JSON/Data/data_ox";
     private void LoadData_All()
     {
         this.LoadData_Description_Zombie();
@@ -47,6 +50,7 @@ public class DATASecretary : Secretary
         this.LoadData_Food();
         this.LoadData_Name();
         this.LoadData_Zombie();
+        this.LoadData_OX();
     }
     private void LoadData_Description_Zombie()
     {
@@ -78,6 +82,12 @@ public class DATASecretary : Secretary
             .Load<TextAsset>(PATH_NAME).text;
         this.DictName = JsonConvert
             .DeserializeObject<DATAName[]>(json)
+            .ToDictionary(ele => ele.id);
+    }
+    private void LoadData_OX()
+    {
+        string json = Resources.Load<TextAsset>(PATH_OX).text;
+        this.DictOX = JsonConvert.DeserializeObject<DATAOX[]>(json)
             .ToDictionary(ele => ele.id);
     }
     private void LoadData_Zombie()

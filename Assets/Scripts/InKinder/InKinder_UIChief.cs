@@ -35,6 +35,9 @@ public class InKinder_UIChief : UIChief
         // :: Leader
         this.UILeader_OX.Init();
         this.UILeader_Training.Init();
+
+        // :: UI
+        this.InitUIPosition();
     }
     public void Init_FoodButtons(Dictionary<int, DATAFood> DictFood,
         System.Action<Enum.eFood> DelegateButton_Foods)
@@ -48,6 +51,15 @@ public class InKinder_UIChief : UIChief
     public void Init_OX(System.Action<int> DelegateEnd_OXGame)
     {
         this.UILeader_OX.DelegateEnd_OXGame = DelegateEnd_OXGame;
+    }
+    // >> Status : const
+    private readonly Vector3 ADJUST_UI_POSITION = new Vector3(0, -960, 0);
+    private void InitUIPosition()
+    {
+        // :: OX
+        this.UILeader_OX.gameObject.SetActive(false);
+        this.UILeader_OX.transform.localPosition = Vector3.zero
+            + ADJUST_UI_POSITION;
     }
 
     // : Add Button Listener
@@ -132,15 +144,17 @@ public class InKinder_UIChief : UIChief
         else
             this.CanTouchButton_All(true);
     }
-    public void ShowField_OX(bool check)
+    public void ShowField_OX(bool check, Dictionary<int, DATAOX> DictOX = null)
     {
         // :: Show
-        this.UILeader_OX.Init_Status();
         this.UILeader_OX.gameObject.SetActive(check);
 
-        // :: Button
+        // :: True
         if (check)
         {
+            // >> Data
+            this.UILeader_OX.Init_Status(DictOX);
+            // >> UI
             this.UILeader_Button.CanTouchButton(Enum.eButton.TRAINING, true);
         }
         else

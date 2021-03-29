@@ -8,39 +8,50 @@ public class InKinder_UILeader_OX : MonoBehaviour
     // : Init
     // >> Assign
     [SerializeField]
+    private Text TEXT_Question;
+    [SerializeField]
     private Button BUTTON_O;
     [SerializeField]
     private Button BUTTON_X;
     // >> Status
     private int gameCount;
     private int gameScore;
-    // >> Use
-    private enum eOX { O, X }
+    private Dictionary<int, DATAOX> DictOX;
     public void Init()
     {
         this.BUTTON_O.onClick.AddListener(() => { this.ButtonScenario_O(); });
         this.BUTTON_X.onClick.AddListener(() => { this.ButtonScenario_X(); });
     }
-    public void Init_Status()
+    public void Init_Status(Dictionary<int, DATAOX> DictOX)
     {
         this.gameCount = 0;
         this.gameScore = 1;
+        this.DictOX = DictOX;
+        this.Set_Question();
     }
 
     // : Button Scenario
     private void ButtonScenario_O()
     {
-        this.gameCount += 1;
-        Debug.LogWarning("O count" + gameCount);
-        this.CheckGame(eOX.O);
-        this.CheckCount();
+        this.CheckGame(true);
     }
     private void ButtonScenario_X()
     {
-        this.gameCount += 1;
-        Debug.LogWarning("X count" + gameCount);
-        this.CheckGame(eOX.X);
-        this.CheckCount();
+        this.CheckGame(false);
+    }
+
+    // : Set
+    // >> Status
+    private DATAOX curDataOX;
+    public void Set_Question()
+    {
+        // :: Random
+        System.Random rand = new System.Random();
+        int oxID = rand.Next(1, this.DictOX.Count + 1);
+        this.curDataOX = this.DictOX[oxID];
+
+        // :: Set
+        this.TEXT_Question.text = this.curDataOX.question;
     }
 
     // : Check
@@ -53,9 +64,15 @@ public class InKinder_UILeader_OX : MonoBehaviour
             this.DelegateEnd_OXGame(this.gameScore);
         }
     }
-    private void CheckGame(eOX eOX)
+    private void CheckGame(bool check)
     {
-        if (eOX == eOX.O)
+        this.gameCount += 1;
+        if (check == this.curDataOX.answer)
+        {
             this.gameScore *= 2;
+            Debug.LogWarning(":: Correct");
+        }
+        this.CheckCount();
+        this.Set_Question();
     }
 }
